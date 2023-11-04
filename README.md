@@ -12,6 +12,7 @@
 To run this project locally, you need to meet the following requirements:
 
 - [Node.js](https://nodejs.org/) version 17 or higher
+- [Yarn](https://yarnpkg.com/) version 1.22.19
 
 ## Installation
 
