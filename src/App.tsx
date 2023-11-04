@@ -1,3 +1,4 @@
+import { lazy } from "react";
 import {
     createBrowserRouter,
     createRoutesFromElements,
@@ -6,7 +7,8 @@ import {
 } from "react-router-dom";
 import AppLayout from "./layouts/AppLayout";
 import NotFound from "./pages/NotFound";
-import Posts from "./pages/Posts";
+
+const Posts = lazy(() => import("./pages/Posts"));
 
 const App = () => {
     const router = createBrowserRouter(
