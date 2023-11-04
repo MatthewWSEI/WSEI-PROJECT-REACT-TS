@@ -5,17 +5,12 @@ const API_URL: string = "https://jsonplaceholder.typicode.com";
 
 const getUsers = async (
     onSuccess: (data: UserType[]) => void,
-    onError: (error: unknown) => void
+    onError: (error: unknown) => void,
 ) => {
     const url = `${API_URL}/users`;
 
     try {
-        const responseData = await callApi(
-            url,
-            null,
-            null,
-            "GET"
-        );
+        const responseData = await callApi(url, null, null, "GET");
         onSuccess(responseData);
         console.log(responseData);
     } catch (error) {
@@ -23,4 +18,4 @@ const getUsers = async (
     }
 };
 
-export{getUsers};
+export { getUsers };

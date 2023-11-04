@@ -4,17 +4,12 @@ const API_URL: string = "https://jsonplaceholder.typicode.com";
 
 const getTodos = async (
     onSuccess: (data: TodoType[]) => void,
-    onError: (error: unknown) => void
+    onError: (error: unknown) => void,
 ) => {
     const url = `${API_URL}/todos`;
 
     try {
-        const responseData = await callApi(
-            url,
-            null,
-            null,
-            "GET"
-        );
+        const responseData = await callApi(url, null, null, "GET");
         onSuccess(responseData);
         console.log(responseData);
     } catch (error) {
@@ -22,4 +17,4 @@ const getTodos = async (
     }
 };
 
-export{getTodos};
+export { getTodos };

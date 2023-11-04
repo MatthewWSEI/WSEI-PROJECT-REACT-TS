@@ -2,14 +2,14 @@ export const callApi = async (
     url: string,
     data: unknown,
     headers?: unknown,
-    method: string = "POST"
+    method: string = "POST",
 ) => {
     const response = await fetch(`${url}`, {
         method,
         headers: headers
             ? { ...headers, "Content-Type": "application/json" }
             : { "Content-Type": "application/json" },
-        body: data ? JSON.stringify(data) : null
+        body: data ? JSON.stringify(data) : null,
     });
 
     if (response.ok) {
@@ -18,7 +18,7 @@ export const callApi = async (
     } else {
         const errorData = await response.json();
         throw new Error(
-            `Request failed with status: ${response.status}, message: ${errorData.message}`
+            `Request failed with status: ${response.status}, message: ${errorData.message}`,
         );
     }
 };

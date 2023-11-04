@@ -5,17 +5,12 @@ const API_URL: string = "https://jsonplaceholder.typicode.com";
 
 const getAlbums = async (
     onSuccess: (data: AlbumType[]) => void,
-    onError: (error: unknown) => void
+    onError: (error: unknown) => void,
 ) => {
     const url = `${API_URL}/albums`;
 
     try {
-        const responseData = await callApi(
-            url,
-            null,
-            null,
-            "GET"
-        );
+        const responseData = await callApi(url, null, null, "GET");
         onSuccess(responseData);
         console.log(responseData);
     } catch (error) {
@@ -23,4 +18,4 @@ const getAlbums = async (
     }
 };
 
-export{getAlbums};
+export { getAlbums };

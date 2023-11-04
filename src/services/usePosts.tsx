@@ -5,17 +5,12 @@ const API_URL: string = "https://jsonplaceholder.typicode.com";
 
 const getPosts = async (
     onSuccess: (data: PostType[]) => void,
-    onError: (error: unknown) => void
+    onError: (error: unknown) => void,
 ) => {
     const url = `${API_URL}/posts`;
 
     try {
-        const responseData = await callApi(
-            url,
-            null,
-            null,
-            "GET"
-        );
+        const responseData = await callApi(url, null, null, "GET");
         onSuccess(responseData);
         console.log(responseData);
     } catch (error) {
@@ -23,4 +18,4 @@ const getPosts = async (
     }
 };
 
-export{getPosts};
+export { getPosts };
