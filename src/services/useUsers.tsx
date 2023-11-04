@@ -1,10 +1,11 @@
+import { UserType } from "../types/UserType";
 import { callApi } from "./useApi";
 
 const API_URL: string = "https://jsonplaceholder.typicode.com";
 
 const getUsers = async (
-    onSuccess: (data: any) => void,
-    onError: (error: any) => void
+    onSuccess: (data: UserType[]) => void,
+    onError: (error: unknown) => void
 ) => {
     const url = `${API_URL}/users`;
 

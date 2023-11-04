@@ -1,10 +1,11 @@
 import { callApi } from "./useApi";
+import { AlbumType } from "../types/AlbumType";
 
 const API_URL: string = "https://jsonplaceholder.typicode.com";
 
 const getAlbums = async (
-    onSuccess: (data: any) => void,
-    onError: (error: any) => void
+    onSuccess: (data: AlbumType[]) => void,
+    onError: (error: unknown) => void
 ) => {
     const url = `${API_URL}/albums`;
 

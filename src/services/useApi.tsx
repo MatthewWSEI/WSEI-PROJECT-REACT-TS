@@ -1,7 +1,7 @@
 export const callApi = async (
     url: string,
-    data: any,
-    headers?: any,
+    data: unknown,
+    headers?: unknown,
     method: string = "POST"
 ) => {
     const response = await fetch(`${url}`, {

@@ -1,10 +1,10 @@
 import { callApi } from "./useApi";
-
+import { PhotoType } from "../types/PhotoType";
 const API_URL: string = "https://jsonplaceholder.typicode.com";
 
 const getPhotos = async (
-    onSuccess: (data: any) => void,
-    onError: (error: any) => void
+    onSuccess: (data: PhotoType[]) => void,
+    onError: (error: unknown) => void
 ) => {
     const url = `${API_URL}/photos`;
 

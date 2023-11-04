@@ -1,10 +1,11 @@
 import { callApi } from "./useApi";
+import { PostType } from "../types/PostType";
 
 const API_URL: string = "https://jsonplaceholder.typicode.com";
 
 const getPosts = async (
-    onSuccess: (data: any) => void,
-    onError: (error: any) => void
+    onSuccess: (data: PostType[]) => void,
+    onError: (error: unknown) => void
 ) => {
     const url = `${API_URL}/posts`;
 

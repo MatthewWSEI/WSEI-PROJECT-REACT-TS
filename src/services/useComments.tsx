@@ -1,10 +1,10 @@
 import { callApi } from "./useApi";
-
+import { CommentType } from "../types/CommentType";
 const API_URL: string = "https://jsonplaceholder.typicode.com";
 
 const getComments = async (
-    onSuccess: (data: any) => void,
-    onError: (error: any) => void
+    onSuccess: (data: CommentType[]) => void,
+    onError: (error: unknown) => void
 ) => {
     const url = `${API_URL}/comments`;
 

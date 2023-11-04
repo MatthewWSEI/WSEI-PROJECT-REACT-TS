@@ -1,10 +1,10 @@
 import { callApi } from "./useApi";
-
+import { TodoType } from "../types/TodoType";
 const API_URL: string = "https://jsonplaceholder.typicode.com";
 
 const getTodos = async (
-    onSuccess: (data: any) => void,
-    onError: (error: any) => void
+    onSuccess: (data: TodoType[]) => void,
+    onError: (error: unknown) => void
 ) => {
     const url = `${API_URL}/todos`;
 
