@@ -1,6 +1,6 @@
-export type TodoType ={
-    userId: number
-    id: number
-    title: string
-    complated: boolean
+export type TodoType = {
+    userId: number;
+    id: number;
+    title: string;
+    complated: boolean;
 };

@@ -1,5 +1,3 @@
-import React from "react";
-
 const NotFound = () => {
     return (
         <div className="bg-slate-800 w-full h-screen p-6 flex justify-center items-center">
