@@ -22,7 +22,7 @@ const Posts = () => {
     }, [posts, isLoading]);
 
     return (
-        <div className="bg-slate-800 w-full min-h-screen h-full p-6">
+        <div>
             {!isLoading ? (
                 <div className="bg-slate-700 rounded-lg px-2 py-1 mb-2 ring-slate-900/5 shadow-lg text-white flex justify-center">
                     Loading...
@@ -31,7 +31,7 @@ const Posts = () => {
                 posts &&
                 posts.map((post) => (
                     <div
-                        className="bg-slate-700 rounded-lg px-2 py-1 mb-2 ring-slate-900/5 shadow-lg"
+                        className="bg-slate-700 rounded-lg py-[10px] px-[20px] mb-2 ring-slate-900/5 shadow-lg"
                         key={post.id}
                     >
                         <h1 className="text-white">{post.title}</h1>
