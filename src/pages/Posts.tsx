@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { getPosts } from "../services/usePosts";
 import { PostType } from "../types/PostType";
+import { Link, redirect, useNavigate } from "react-router-dom";
 
 const Posts = () => {
     const [posts, setPosts] = useState<PostType[]>([]);
@@ -20,7 +21,6 @@ const Posts = () => {
             setLoading(true);
         }
     }, [posts, isLoading]);
-
     return (
         <div>
             {!isLoading ? (
@@ -33,6 +33,12 @@ const Posts = () => {
                     <div
                         className="bg-slate-700 rounded-lg py-[10px] px-[20px] mb-2 ring-slate-900/5 shadow-lg"
                         key={post.id}
+                        // onClick={() => {
+                        //     return redirect(`Post/${post.id}`);
+                        // }}
+                        onClick={() => {
+                            console.log("działam");
+                        }}
                     >
                         <h1 className="text-white">{post.title}</h1>
                         <p className="text-slate-400">{post.body}</p>
