@@ -18,4 +18,20 @@ const getUsers = async (
     }
 };
 
-export { getUsers };
+const getUser = async (
+    id: unknown,
+    onSuccess: (data: UserType) => void,
+    onError: (error: unknown) => void,
+) => {
+    const url = `${API_URL}/users/${id}`;
+
+    try {
+        const responseData = await callApi(url, null, null, "GET");
+        onSuccess(responseData);
+        console.log(responseData);
+    } catch (error) {
+        onError(error);
+    }
+};
+
+export { getUsers,getUser };

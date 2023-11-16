@@ -1,6 +1,6 @@
 export type PostType = {
     body: string;
-    id: number;
+    id: number | null;
     title: string;
-    userId: number;
+    userId: number | null;
 };

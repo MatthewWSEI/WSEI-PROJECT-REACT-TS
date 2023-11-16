@@ -18,4 +18,20 @@ const getPosts = async (
     }
 };
 
-export { getPosts };
+const getPost = async (
+    id: unknown,
+    onSuccess: (data: PostType) => void,
+    onError: (error: unknown) => void,
+) => {
+    const url = `${API_URL}/posts/${id}`;
+
+    try {
+        const responseData = await callApi(url, null, null, "GET");
+        onSuccess(responseData);
+        console.log(responseData);
+    } catch (error) {
+        onError(error);
+    }
+};
+
+export { getPosts, getPost };
