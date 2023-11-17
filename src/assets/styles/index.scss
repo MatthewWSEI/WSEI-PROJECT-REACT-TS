@@ -2,7 +2,4 @@
 @tailwind components;
 @tailwind utilities;
 
-*{
-    // background-color: rgb(19, 0, 104);
-    // color: white;
-}
+@import './common.scss';

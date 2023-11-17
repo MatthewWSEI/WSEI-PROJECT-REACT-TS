@@ -1,18 +1,13 @@
-import React,{ useState } from "react";
 import { NavLink } from "react-router-dom";
-import logo from "../../../../public/favicon.ico";
-import Slider from "../../../components/Slider";
 
-const Header = () => {
-    const [open, setOpen] = useState<boolean>(false);
+interface SliderProps {
+    setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  }
+
+const Slider: React.FC<SliderProps> = ({ setOpen }) => {
     return (
-        <header className="flex justify-between items-center h-[80px] mb-2">
-            <NavLink className="flex flex-row items-center gap-1" to="/">
-                <img className="rounded-full" src={logo} alt="logo" />
-                <h2 className="text-2xl font-bold text-white">MatWeb</h2>
-            </NavLink>
-
-            <nav className="flex flex-row gap-1 max-md:hidden">
+        <div className="slider" onClick={()=>setOpen(false)}>
+            <nav className="flex flex-col justify-center items-center gap-1 w-full h-full">
                 <NavLink
                     className={({ isActive }) =>
                         isActive
@@ -91,28 +86,8 @@ const Header = () => {
                     <div className="font-bold text-white">Profile</div>
                 </NavLink>
             </nav>
-            <div
-                className="md:hidden cursor-pointer"
-                onClick={() => setOpen(!open)}
-            >
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="w-6 h-6 text-white "
-                >
-                    <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-                    />
-                </svg>
-                {open && <Slider setOpen={setOpen}/>}
-            </div>
-        </header>
+        </div>
     );
 };
 
-export default Header;
+export default Slider;
