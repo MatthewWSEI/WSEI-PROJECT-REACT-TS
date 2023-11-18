@@ -1,4 +1,4 @@
-import React,{ useState } from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import logo from "../../../../public/favicon.ico";
 import Slider from "../../../components/Slider";
@@ -12,16 +12,15 @@ const Header = () => {
                 <h2 className="text-2xl font-bold text-white">MatWeb</h2>
             </NavLink>
 
-            <nav className="flex flex-row gap-1 max-md:hidden">
+            <nav className="flex flex-row gap-1 max-sm:hidden">
                 <NavLink
                     className={({ isActive }) =>
-                        isActive
-                            ? "bg-slate-700 transition duration-700 ease-in-out hover:bg-slate-500 rounded-lg px-2 py-1 ring-slate-900/5 shadow-lg text-white flex justify-center flex-row items-center gap-1"
-                            : "transition duration-700 ease-in-out hover:bg-slate-500 rounded-lg px-2 py-1 text-white flex justify-center flex-row items-center gap-1"
+                        (isActive ? " bg-slate-700 " : "") +
+                        "transition duration-700 ease-in-out hover:bg-slate-500 rounded-lg px-2 py-1 text-white flex justify-center flex-row items-center gap-1"
                     }
                     to="/"
                 >
-                    <div>
+                    <div className="sm:hidden">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
@@ -39,13 +38,12 @@ const Header = () => {
                 </NavLink>
                 <NavLink
                     className={({ isActive }) =>
-                        isActive
-                            ? "bg-slate-700 transition duration-700 ease-in-out hover:bg-slate-500 rounded-lg px-2 py-1 ring-slate-900/5 shadow-lg text-white flex justify-center flex-row items-center gap-1"
-                            : "transition duration-700 ease-in-out hover:bg-slate-500 rounded-lg px-2 py-1 text-white flex justify-center flex-row items-center gap-1"
+                        (isActive ? " bg-slate-700 " : "") +
+                        "transition duration-700 ease-in-out hover:bg-slate-500 rounded-lg px-2 py-1 text-white flex justify-center flex-row items-center gap-1"
                     }
                     to="Todo"
                 >
-                    <div>
+                    <div className="sm:hidden">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
@@ -68,13 +66,12 @@ const Header = () => {
                 </NavLink>
                 <NavLink
                     className={({ isActive }) =>
-                        isActive
-                            ? "bg-slate-700 transition duration-700 ease-in-out hover:bg-slate-500 rounded-lg px-2 py-1 ring-slate-900/5 shadow-lg text-white flex justify-center flex-row items-center gap-1"
-                            : "transition duration-700 ease-in-out hover:bg-slate-500 rounded-lg px-2 py-1 text-white flex justify-center flex-row items-center gap-1"
+                        (isActive ? " bg-slate-700 " : "") +
+                        "transition duration-700 ease-in-out hover:bg-slate-500 rounded-lg px-2 py-1 text-white flex justify-center flex-row items-center gap-1"
                     }
                     to="Profile"
                 >
-                    <div>
+                    <div className="sm:hidden">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
@@ -92,7 +89,7 @@ const Header = () => {
                 </NavLink>
             </nav>
             <div
-                className="md:hidden cursor-pointer"
+                className="sm:hidden cursor-pointer"
                 onClick={() => setOpen(!open)}
             >
                 <svg
@@ -109,7 +106,7 @@ const Header = () => {
                         d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
                     />
                 </svg>
-                {open && <Slider setOpen={setOpen}/>}
+                {open && <Slider setOpen={setOpen} />}
             </div>
         </header>
     );
