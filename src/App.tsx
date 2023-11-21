@@ -7,12 +7,13 @@ import {
 } from "react-router-dom";
 import AppLayout from "./layouts/AppLayout/AppLayout";
 
-import Posts from "./pages/Posts";
+import Posts from "./pages/Posts/Posts";
 import Todo from "./pages/Todo";
 import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 import PostsLayout from "./layouts/PostLayout";
-import Post from "./pages/Post";
+import Post from "./pages/Posts/View/Post";
+import PostEdit from "./pages/Posts/View/PostEdit";
 
 // const Posts = lazy(() => import("./pages/Posts"));
 // const Todo = lazy(() => import("./pages/Todo"));
@@ -25,7 +26,7 @@ const App = () => {
                 <Route index element={<Posts />} />
                 <Route path="Post/:id" element={<PostsLayout />}>
                     <Route index element={<Post />} />
-                    <Route path="Edit" element={<p>Edit</p>} />
+                    <Route path="Edit" element={<PostEdit />} />
                 </Route>
                 <Route path="/Todo" element={<Todo />} />
                 <Route path="/Profile" element={<Profile />} />
