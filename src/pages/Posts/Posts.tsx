@@ -62,7 +62,7 @@ const Posts = () => {
                                 </svg>
 
                                 {comments.filter(
-                                    (comment) => comment.postId === post.id,
+                                    (comment) => comment.postId === post.id
                                 ).length || "0"}
                             </div>
                         </div>

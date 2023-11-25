@@ -89,6 +89,12 @@ const Post = () => {
                     </div>
                     <h1 className="text-white text-xl">{post.title}</h1>
                     <p className="text-slate-400">{post.body}</p>
+                    <div className="comments">
+                        <span>Comments:</span>
+                        {comments.filter(
+                            (comment) => comment.postId === post.id,
+                        ).map((e)=>(<div key={e.id} className="w-full bg-slate-600 rounded-lg  py-[10px] px-[20px] mb-1">{e.name}</div>))}
+                    </div>
                 </div>
             )}
         </>
