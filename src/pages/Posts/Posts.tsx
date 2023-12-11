@@ -45,11 +45,11 @@ const Posts = () => {
             posts.length <= 0 ||
             comments.length <= 0 ||
             users.length <= 0 ? (
-                <div className="w-full h-[100px] bg-slate-700 rounded-lg py-[10px] px-[20px] ring-slate-900/5 shadow-lg text-white flex justify-center items-center">
+                    <div className="w-full h-[100px] bg-slate-700 rounded-lg py-[10px] px-[20px] ring-slate-900/5 shadow-lg text-white flex justify-center items-center">
                     Loading...
-                </div>
-            ) : (
-                posts &&
+                    </div>
+                ) : (
+                    posts &&
                 posts.map((post) => (
                     <div
                         className="postContainer postsList postContainer__sb bg-slate-700"
@@ -110,7 +110,7 @@ const Posts = () => {
                         </Link>
                     </div>
                 ))
-            )}
+                )}
         </>
     );
 };
