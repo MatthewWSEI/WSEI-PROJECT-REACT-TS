@@ -8,13 +8,20 @@ import {
 import AppLayout from "./layouts/AppLayout/AppLayout";
 
 import Posts from "./pages/Posts/Posts";
-import Todo from "./pages/Todo";
-import Profile from "./pages/Profile";
-import NotFound from "./pages/NotFound";
-import PostsLayout from "./layouts/PostLayout";
+import PostLayout from "./layouts/PostLayout";
 import Post from "./pages/Posts/View/Post";
 import PostEdit from "./pages/Posts/View/PostEdit";
 
+import TodoList from "./pages/Todo/TodoList";
+import TodoLayout from "./layouts/TodoLayout";
+import Todo from "./pages/Todo/View/Todo";
+import TodoEdit from "./pages/Todo/View/TodoEdit";
+
+import Users from "./pages/Users/Users";
+import UserLayout from "./layouts/UserLayout";
+
+import NotFound from "./pages/NotFound";
+import User from "./pages/Users/View/User";
 // const Posts = lazy(() => import("./pages/Posts"));
 // const Todo = lazy(() => import("./pages/Todo"));
 // const Profile = lazy(() => import("./pages/Profile"));
@@ -24,12 +31,20 @@ const App = () => {
         createRoutesFromElements(
             <Route path="/" element={<AppLayout />}>
                 <Route index element={<Posts />} />
-                <Route path="Post/:id" element={<PostsLayout />}>
+                <Route path="Post/:id" element={<PostLayout />}>
                     <Route index element={<Post />} />
                     <Route path="Edit" element={<PostEdit />} />
                 </Route>
-                <Route path="/Todo" element={<Todo />} />
-                <Route path="/Profile" element={<Profile />} />
+                <Route path="/Todos" element={<TodoList />} />
+                <Route path="Todo/:id" element={<TodoLayout />}>
+                    <Route index element={<Todo/>} />
+                    <Route path="Edit" element={<TodoEdit />} />
+                </Route>
+                <Route path="/Users" element={<Users />} />
+                <Route path="User/:id" element={<UserLayout />}>
+                    <Route index element={<User/>} />
+                    <Route path="Edit" element={<div>Edit</div>} />
+                </Route>
                 <Route path="*" element={<NotFound />} />
             </Route>,
         ),

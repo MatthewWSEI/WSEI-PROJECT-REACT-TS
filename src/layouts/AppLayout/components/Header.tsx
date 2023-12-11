@@ -38,7 +38,7 @@ const Header = () => {
                         (isActive ? " bg-slate-700 " : "") +
                         "transition duration-700 ease-in-out hover:bg-slate-500 rounded-lg px-2 py-1 text-white flex justify-center flex-row items-center gap-1"
                     }
-                    to="Todo"
+                    to="Todos"
                 >
                     <div className="hidden md:block">
                         <svg
@@ -66,7 +66,7 @@ const Header = () => {
                         (isActive ? " bg-slate-700 " : "") +
                         "transition duration-700 ease-in-out hover:bg-slate-500 rounded-lg px-2 py-1 text-white flex justify-center flex-row items-center gap-1"
                     }
-                    to="Profile"
+                    to="Users"
                 >
                     <div className="hidden md:block">
                         <svg
@@ -82,7 +82,7 @@ const Header = () => {
                             />
                         </svg>
                     </div>
-                    <div className="font-bold text-white">Profile</div>
+                    <div className="font-bold text-white">Users</div>
                 </NavLink>
             </nav>
             <div
