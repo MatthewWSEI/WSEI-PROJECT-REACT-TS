@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, ChangeEvent, useRef, useEffect } from "react";
 import { getPosts } from "../../services/usePosts";
 import { PostType } from "../../types/PostType";
 import { Link } from "react-router-dom";
@@ -8,6 +8,13 @@ import { UserType } from "../../types/UserType";
 import { getUsers } from "../../services/useUsers";
 
 const Posts = () => {
+    const [text, setText] = useState<string>("");
+    const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+    const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+        setText(event.target.value);
+    };
+
     const [posts, setPosts] = useState<PostType[]>([]);
     const [comments, setComments] = useState<CommentType[]>([]);
     const [users, setUsers] = useState<UserType[]>([]);
@@ -31,33 +38,85 @@ const Posts = () => {
     };
 
     useEffect(() => {
-        if (!isLoading) {
+        if (posts.length <= 0 && !isLoading) {
             getPosts(onSuccessPosts, onError);
-            setLoading(true);
         }
-        posts.length > 0 && getUsers(onSuccessUsers, onError);
-        posts.length > 0 && getComments(onSuccessComments, onError);
-    }, [posts, isLoading]);
+        if (posts.length > 0 && !isLoading) {
+            getUsers(onSuccessUsers, onError);
+            getComments(onSuccessComments, onError);
+        }
+        users.length > 0 && setLoading(true);
+    }, [posts, isLoading, users]);
+
+    useEffect(() => {
+        if (textareaRef.current) {
+            textareaRef.current.style.height = "50px";
+            textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+        }
+    }, [text]);
 
     return (
-        <>
-            {!isLoading ||
-            posts.length <= 0 ||
-            comments.length <= 0 ||
-            users.length <= 0 ? (
-                    <div className="w-full h-[100px] bg-slate-700 rounded-lg py-[10px] px-[20px] ring-slate-900/5 shadow-lg text-white flex justify-center items-center">
-                    Loading...
+        <div className="w-full flex flex-col">
+            <div className="w-full h-full bg-slate-700 rounded-lg py-[10px] px-[20px] ring-slate-900/5 shadow-lg text-white flex flex-col justify-center items-center mb-[20px]">
+                <div className="w-full flex flex-row gap-1">
+                    <div>
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            fill="currentColor"
+                            className="w-6 h-6"
+                        >
+                            <path
+                                fillRule="evenodd"
+                                d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"
+                                clipRule="evenodd"
+                            />
+                        </svg>
                     </div>
-                ) : (
-                    posts &&
+                    <textarea
+                        className="w-full h-[1px] min-h-[50px] max-h-[300px] rounded-lg bg-slate-600 px-[20px] py-[10px] mb-1"
+                        ref={textareaRef}
+                        value={text}
+                        onChange={handleChange}
+                        placeholder="Write something"
+                        style={{
+                            resize: "none",
+                        }}
+                    />
+                </div>
+                <div className="w-full flex h-full justify-end">
+                    <button className="px-[20px] py-[10px] bg-slate-600 hover:bg-slate-500 rounded-lg">
+                        Publish
+                    </button>
+                </div>
+            </div>
+            {!isLoading ? (
+                <div className="w-full h-[100px] bg-slate-700 rounded-lg py-[10px] px-[20px] ring-slate-900/5 shadow-lg text-white flex justify-center items-center">
+                    Loading...
+                </div>
+            ) : (
+                posts &&
                 posts.map((post) => (
                     <div
-                        className="postContainer postsList postContainer__sb bg-slate-700"
+                        className="post postFlex postContainer__sb bg-slate-700"
                         key={post.id}
                     >
                         <div className="texts">
-                            <div className="w-full flex flex-row items-start text-white gap-1">
-                                <div>img</div>
+                            <div className="w-full flex flex-row items-center justify-start text-white gap-1">
+                                <div>
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 24 24"
+                                        fill="currentColor"
+                                        className="w-4 h-4"
+                                    >
+                                        <path
+                                            fillRule="evenodd"
+                                            d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"
+                                            clipRule="evenodd"
+                                        />
+                                    </svg>
+                                </div>
                                 <div>
                                     {users
                                         .filter(
@@ -68,8 +127,12 @@ const Posts = () => {
                                         ))}
                                 </div>
                             </div>
-                            <h1 className="text-xl">{post.title}</h1>
-                            <p className="text-slate-400">{post.body}</p>
+
+                            <div className="w-full flex flex-col items-start justify-start text-white gap-1 px-[20px] py-[10px]">
+                                <h1 className="text-2xl">{post.title}</h1>
+                                <p className="text-slate-400">{post.body}</p>
+                            </div>
+
                             <div className="inline-flex gap-1">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -90,7 +153,7 @@ const Posts = () => {
                             </div>
                         </div>
                         <Link
-                            className="link hover:bg-slate-600"
+                            className="link bg-slate-600 hover:bg-slate-500"
                             to={`Post/${post.id}`}
                         >
                             <svg
@@ -110,8 +173,8 @@ const Posts = () => {
                         </Link>
                     </div>
                 ))
-                )}
-        </>
+            )}
+        </div>
     );
 };
 export default Posts;

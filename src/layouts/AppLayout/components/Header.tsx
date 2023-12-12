@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import logo from "../../../../public/favicon.ico";
+import logo from "../../../assets/images/favicon.ico";
 import Slider from "../../../components/Slider";
 
 const Header = () => {
@@ -15,7 +15,7 @@ const Header = () => {
             <nav className="flex flex-row gap-1 max-sm:hidden">
                 <NavLink
                     className={({ isActive }) =>
-                        (isActive ? " bg-slate-700 " : "") +
+                        (isActive ? " bg-slate-600 " : "") +
                         "transition duration-700 ease-in-out hover:bg-slate-500 rounded-lg px-2 py-1 text-white flex justify-center flex-row items-center gap-1"
                     }
                     to="/"
@@ -35,7 +35,7 @@ const Header = () => {
                 </NavLink>
                 <NavLink
                     className={({ isActive }) =>
-                        (isActive ? " bg-slate-700 " : "") +
+                        (isActive ? " bg-slate-600 " : "") +
                         "transition duration-700 ease-in-out hover:bg-slate-500 rounded-lg px-2 py-1 text-white flex justify-center flex-row items-center gap-1"
                     }
                     to="Todos"
@@ -63,7 +63,7 @@ const Header = () => {
                 </NavLink>
                 <NavLink
                     className={({ isActive }) =>
-                        (isActive ? " bg-slate-700 " : "") +
+                        (isActive ? " bg-slate-600 " : "") +
                         "transition duration-700 ease-in-out hover:bg-slate-500 rounded-lg px-2 py-1 text-white flex justify-center flex-row items-center gap-1"
                     }
                     to="Users"
