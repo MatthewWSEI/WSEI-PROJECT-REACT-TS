@@ -37,7 +37,7 @@ const Slider: React.FC<SliderProps> = ({ setOpen }) => {
                             (isActive ? " bg-slate-700 " : "") +
                             "text-4xl transition duration-700 ease-in-out hover:bg-slate-500 rounded-lg px-2 py-1 text-white flex justify-center flex-row items-center gap-1"
                         }
-                        to="Todo"
+                        to="Todos"
                     >
                         <div>
                             <svg
@@ -65,7 +65,7 @@ const Slider: React.FC<SliderProps> = ({ setOpen }) => {
                             (isActive ? " bg-slate-700 " : "") +
                             "text-4xl transition duration-700 ease-in-out hover:bg-slate-500 rounded-lg px-2 py-1 text-white flex justify-center flex-row items-center gap-1"
                         }
-                        to="Profile"
+                        to="Users"
                     >
                         <div>
                             <svg
