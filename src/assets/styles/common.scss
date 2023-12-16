@@ -5,15 +5,17 @@
     padding: 0;
     box-sizing: border-box;
 }
-// html,
+
 body {
     background-color: #1e293b;
     font-family: 'Arial', sans-serif;
     min-width: 320px;
-    // overscroll-behavior-y: none;
+    overscroll-behavior-y: none;
+    overflow-y: scroll;
     --sb-track-color: #1e293b;
     --sb-thumb-color: #334155;
     --sb-size: 16px;
+    padding-right: 16px;
     scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
 }
 
@@ -27,8 +29,8 @@ body::-webkit-scrollbar-track {
 }
 
 body::-webkit-scrollbar-thumb {
-    background: var(--sb-thumb-color);
-    border-radius: 10px;
+    background: #334155;
+    border-radius: 8px;
     border: 4px solid #1e293b;
 }
 
@@ -114,7 +116,6 @@ button {
     border-radius: 0.5rem;
     min-height: 60px;
     margin: 0 -20px -10px -20px;
-    
 }
 
 @media screen and (min-width: $tablets) {
