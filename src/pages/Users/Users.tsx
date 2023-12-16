@@ -35,7 +35,7 @@ const Users = () => {
                 </div>
             ) : (
                 users.map((user) => (
-                    <div className="post postFlex postContainer__sb bg-slate-700" key={user.id}>
+                    <div className="post post--animation postFlex postContainer__sb bg-slate-700" key={user.id}>
                         <div className="texts">
                             <div className="w-full flex flex-row items-start text-white gap-1">
                                 <div>
@@ -60,7 +60,7 @@ const Users = () => {
                             </div>
                         </div>
                         <Link
-                            className="link bg-slate-600 hover:bg-slate-500"
+                            className="link"
                             to={`/User/${user.id}`}
                         >
                             <svg

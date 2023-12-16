@@ -57,7 +57,7 @@ const TodoList = () => {
                 </div>
             ) : (
                 data.todos.map((todo) => (
-                    <div className="post postFlex postContainer__sb bg-slate-700" key={todo.id}>
+                    <div className="post post--animation postFlex postContainer__sb bg-slate-700" key={todo.id}>
                         <div className="texts">
                             <div className="w-full flex flex-row items-start text-white gap-1">
                                 <div>
@@ -95,7 +95,7 @@ const TodoList = () => {
                             </div>
                         </div>
                         <Link
-                            className="link bg-slate-600 hover:bg-slate-500"
+                            className="link"
                             to={`/Todo/${todo.id}`}
                         >
                             <svg

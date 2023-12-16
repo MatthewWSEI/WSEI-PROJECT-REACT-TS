@@ -87,7 +87,7 @@ const Posts = () => {
                 </div>
             ) : (
                 data.posts.map((post) => (
-                    <div className="post postFlex postContainer__sb bg-slate-700" key={post.id}>
+                    <div className="post post--animation postFlex postContainer__sb bg-slate-700" key={post.id}>
                         <div className="texts">
                             <div className="w-full flex flex-row items-center justify-start text-white gap-1">
                                 <div>
@@ -137,7 +137,7 @@ const Posts = () => {
                             </div>
                         </div>
                         <Link
-                            className="link bg-slate-600 hover:bg-slate-500"
+                            className="link"
                             to={`Post/${post.id}`}
                         >
                             <svg

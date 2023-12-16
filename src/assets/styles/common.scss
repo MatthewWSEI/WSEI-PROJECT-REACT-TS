@@ -90,7 +90,12 @@ button {
     margin: 0 0 8px 0;
     color: white;
     gap: 0.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: 0.7s;
 }
+
+
 
 .postContainer__sb{
     justify-content: space-between;
@@ -118,7 +123,14 @@ button {
     margin: 0 -20px -10px -20px;
 }
 
+
 @media screen and (min-width: $tablets) {
+
+    .post--animation{
+        &:hover{
+            margin: 4px 0 12px 0;
+        }
+    }
     .postFlex {
         flex-direction: row;
     }
@@ -129,9 +141,24 @@ button {
         padding: 10px 0;
         margin: -10px -20px -10px 0;
         transition: 0.7s;
+        background-color: rgb(71 85 105);
         &:hover{
-            transform: scaleX(1.1);
-            margin-right: -17px;
+        background-color: rgb(51 65 85);
+        }
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: -200%; /* Ustawienie poświaty poza granice kontenera z prawej strony */
+            width: 150%;
+            height: 100%;
+            background: linear-gradient(to left, rgb(255, 255, 255), transparent); /* Gradient poświaty z prawej strony */
+            transition: right 0.7s ease;
+            z-index: 1; /* Wyświetlenie poświaty pod przyciskiem */
+        }
+    
+        &:hover::before {
+            right: -70%;
         }
     }
 }
