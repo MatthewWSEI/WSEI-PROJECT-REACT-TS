@@ -6,36 +6,36 @@ import { getUsers } from "../../services/useUsers";
 const Users = () => {
     const [users, setUsers] = useState<UserType[]>([]);
 
-    const [isLoading, setLoading] = useState<boolean>(false);
-
-    const onSuccessUsers = (data: UserType[]) => {
-        setUsers(data);
-    };
-
-    const onError = (data: unknown) => {
-        console.log(data);
-    };
+    const [isLoading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
-        if (!isLoading) {
-            getUsers(onSuccessUsers, onError);
-            setLoading(true);
-        }
-    }, [users, isLoading]);
+        const fetchData = async () => {
+            if (isLoading) {
+                setLoading(true);
+
+                try {
+                    const userData = await getUsers();
+                    setUsers(userData);
+                } catch (error) {
+                    console.error(error);
+                } finally {
+                    setLoading(false);
+                }
+            }
+        };
+
+        fetchData();
+    }, [isLoading]);
 
     return (
         <>
-            {!isLoading || users.length <= 0 ? (
+            {isLoading ? (
                 <div className="w-full h-[100px] bg-slate-700 rounded-lg py-[10px] px-[20px] ring-slate-900/5 shadow-lg text-white flex justify-center items-center">
                     Loading...
                 </div>
             ) : (
-                users &&
                 users.map((user) => (
-                    <div
-                        className="post postFlex postContainer__sb bg-slate-700"
-                        key={user.id}
-                    >
+                    <div className="post postFlex postContainer__sb bg-slate-700" key={user.id}>
                         <div className="texts">
                             <div className="w-full flex flex-row items-start text-white gap-1">
                                 <div>
@@ -55,9 +55,7 @@ const Users = () => {
                                 <div>{user.name}</div>
                             </div>
                             <div className="w-full flex flex-col items-start justify-start text-white gap-1 px-[20px] py-[10px]">
-                                <h1 className="text-2xl">
-                                    Username: {user.username}
-                                </h1>
+                                <h1 className="text-2xl">Username: {user.username}</h1>
                                 <p className="text-slate-400">Emial: {user.email}</p>
                             </div>
                         </div>

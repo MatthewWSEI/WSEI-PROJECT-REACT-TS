@@ -6,32 +6,28 @@ import { getUsers } from "../../services/useUsers";
 import { getTodos } from "../../services/useTodos";
 
 const TodoList = () => {
-    const [todoList, setTodoList] = useState<TodoType[]>([]);
+    const [isLoading, setLoading] = useState<boolean>(true);
 
-    const [users, setUsers] = useState<UserType[]>([]);
-
-    const [isLoading, setLoading] = useState<boolean>(false);
-
-    const onSuccessTodos = (data: TodoType[]) => {
-        setTodoList(data);
-    };
-
-    const onSuccessUsers = (data: UserType[]) => {
-        setUsers(data);
-    };
-
-    const onError = (data: unknown) => {
-        console.log(data);
-    };
+    const [data, setData] = useState<{
+        todos: TodoType[];
+        users: UserType[];
+    }>({ todos: [], users: [] });
 
     useEffect(() => {
-        if (!isLoading) {
-            getTodos(onSuccessTodos, onError);
+        if (isLoading) {
             setLoading(true);
+            Promise.all([getTodos(), getUsers()])
+                .then(([todos, users]) => {
+                    setData({ todos, users });
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+                .finally(() => {
+                    setLoading(false);
+                });
         }
-
-        todoList.length > 0 && getUsers(onSuccessUsers, onError);
-    }, [todoList, isLoading]);
+    }, [isLoading]);
 
     return (
         <div className="w-full flex flex-col">
@@ -55,17 +51,13 @@ const TodoList = () => {
                 </div>
                 <div>Add</div>
             </Link>
-            {!isLoading || todoList.length <= 0 || users.length <= 0 ? (
+            {isLoading ? (
                 <div className="w-full h-[100px] bg-slate-700 rounded-lg py-[10px] px-[20px] ring-slate-900/5 shadow-lg text-white flex justify-center items-center">
                     Loading...
                 </div>
             ) : (
-                todoList &&
-                todoList.map((todo) => (
-                    <div
-                        className="post postFlex postContainer__sb bg-slate-700"
-                        key={todo.id}
-                    >
+                data.todos.map((todo) => (
+                    <div className="post postFlex postContainer__sb bg-slate-700" key={todo.id}>
                         <div className="texts">
                             <div className="w-full flex flex-row items-start text-white gap-1">
                                 <div>
@@ -83,10 +75,8 @@ const TodoList = () => {
                                     </svg>
                                 </div>
                                 <div>
-                                    {users
-                                        .filter(
-                                            (user) => user.id === todo.userId,
-                                        )
+                                    {data.users
+                                        .filter((user) => user.id === todo.userId)
                                         .map((user) => (
                                             <div key={user.id}>{user.name}</div>
                                         ))}
@@ -97,9 +87,7 @@ const TodoList = () => {
                                 <div
                                     className={
                                         "px-[20px] py-[10px] rounded-lg " +
-                                        (todo.completed
-                                            ? "bg-green-900"
-                                            : "bg-red-900")
+                                        (todo.completed ? "bg-green-900" : "bg-red-900")
                                     }
                                 >
                                     Completed
