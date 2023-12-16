@@ -1,36 +1,31 @@
 import { callApi } from "./useApi";
-import { PostType } from "../types/PostType";
 
 const API_URL: string = "https://jsonplaceholder.typicode.com";
 
 const getPosts = async (
-    onSuccess: (data: PostType[]) => void,
-    onError: (error: unknown) => void,
 ) => {
     const url = `${API_URL}/posts`;
 
     try {
         const responseData = await callApi(url, null, null, "GET");
-        onSuccess(responseData);
         console.log(responseData);
+        return await responseData;
     } catch (error) {
-        onError(error);
+        console.error(error);
     }
 };
 
 const getPost = async (
     id: unknown,
-    onSuccess: (data: PostType) => void,
-    onError: (error: unknown) => void,
 ) => {
     const url = `${API_URL}/posts/${id}`;
 
     try {
         const responseData = await callApi(url, null, null, "GET");
-        onSuccess(responseData);
         console.log(responseData);
+        return await responseData;
     } catch (error) {
-        onError(error);
+        console.error(error);
     }
 };
 

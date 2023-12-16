@@ -1,36 +1,31 @@
-import { UserType } from "../types/UserType";
 import { callApi } from "./useApi";
 
 const API_URL: string = "https://jsonplaceholder.typicode.com";
 
 const getUsers = async (
-    onSuccess: (data: UserType[]) => void,
-    onError: (error: unknown) => void,
 ) => {
     const url = `${API_URL}/users`;
 
     try {
         const responseData = await callApi(url, null, null, "GET");
-        onSuccess(responseData);
         console.log(responseData);
+        return await responseData;
     } catch (error) {
-        onError(error);
+        console.error(error);
     }
 };
 
 const getUser = async (
     id: unknown,
-    onSuccess: (data: UserType) => void,
-    onError: (error: unknown) => void,
 ) => {
     const url = `${API_URL}/users/${id}`;
 
     try {
         const responseData = await callApi(url, null, null, "GET");
-        onSuccess(responseData);
         console.log(responseData);
+        return await responseData;
     } catch (error) {
-        onError(error);
+        console.error(error);
     }
 };
 

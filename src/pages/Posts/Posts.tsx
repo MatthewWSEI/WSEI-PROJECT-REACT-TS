@@ -15,38 +15,29 @@ const Posts = () => {
         setText(event.target.value);
     };
 
-    const [posts, setPosts] = useState<PostType[]>([]);
-    const [comments, setComments] = useState<CommentType[]>([]);
-    const [users, setUsers] = useState<UserType[]>([]);
+    const [data, setData] = useState<{
+        posts: PostType[];
+        comments: CommentType[];
+        users: UserType[];
+    }>({ posts: [], comments: [], users: [] });
 
-    const [isLoading, setLoading] = useState<boolean>(false);
-
-    const onSuccessPosts = (data: PostType[]) => {
-        setPosts(data);
-    };
-
-    const onSuccessUsers = (data: UserType[]) => {
-        setUsers(data);
-    };
-
-    const onSuccessComments = (data: CommentType[]) => {
-        setComments(data);
-    };
-
-    const onError = (data: unknown) => {
-        console.log(data);
-    };
+    const [isLoading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
-        if (posts.length <= 0 && !isLoading) {
-            getPosts(onSuccessPosts, onError);
+        if (isLoading) {
+            setLoading(true);
+            Promise.all([getPosts(), getUsers(), getComments()])
+                .then(([posts, users, comments]) => {
+                    setData({ posts, users, comments });
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+                .finally(() => {
+                    setLoading(false);
+                });
         }
-        if (posts.length > 0 && !isLoading) {
-            getUsers(onSuccessUsers, onError);
-            getComments(onSuccessComments, onError);
-        }
-        users.length > 0 && setLoading(true);
-    }, [posts, isLoading, users]);
+    }, [isLoading]);
 
     useEffect(() => {
         if (textareaRef.current) {
@@ -90,17 +81,13 @@ const Posts = () => {
                     </button>
                 </div>
             </div>
-            {!isLoading ? (
+            {isLoading ? (
                 <div className="w-full h-[100px] bg-slate-700 rounded-lg py-[10px] px-[20px] ring-slate-900/5 shadow-lg text-white flex justify-center items-center">
                     Loading...
                 </div>
             ) : (
-                posts &&
-                posts.map((post) => (
-                    <div
-                        className="post postFlex postContainer__sb bg-slate-700"
-                        key={post.id}
-                    >
+                data.posts.map((post) => (
+                    <div className="post postFlex postContainer__sb bg-slate-700" key={post.id}>
                         <div className="texts">
                             <div className="w-full flex flex-row items-center justify-start text-white gap-1">
                                 <div>
@@ -118,10 +105,8 @@ const Posts = () => {
                                     </svg>
                                 </div>
                                 <div>
-                                    {users
-                                        .filter(
-                                            (user) => user.id === post.userId,
-                                        )
+                                    {data.users
+                                        .filter((user) => user.id === post.userId)
                                         .map((user) => (
                                             <div key={user.id}>{user.name}</div>
                                         ))}
@@ -147,9 +132,8 @@ const Posts = () => {
                                     />
                                 </svg>
 
-                                {comments.filter(
-                                    (comment) => comment.postId === post.id,
-                                ).length || "0"}
+                                {data.comments.filter((comment) => comment.postId === post.id)
+                                    .length || "0"}
                             </div>
                         </div>
                         <Link

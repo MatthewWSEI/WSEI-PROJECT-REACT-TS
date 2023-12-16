@@ -14,70 +14,65 @@ type MyParams = {
 const Post = () => {
     const { id } = useParams<MyParams>();
     const numberId = Number(id);
-    const [post, setPost] = useState<PostType>({
-        body: "",
-        id: null,
-        title: "",
-        userId: null,
-    });
-    const [user, setUser] = useState<UserType>({
-        id: null,
-        name: "",
-        username: "",
-        email: "",
-        address: {
-            street: "",
-            suite: "",
-            city: "",
-            zipcode: "",
-            geo: {
-                lat: "",
-                lng: "",
+
+    const [data, setData] = useState<{
+        post: PostType;
+        comments: CommentType[];
+        user: UserType;
+    }>({
+        post: {
+            body: "",
+            id: null,
+            title: "",
+            userId: null,
+        },
+        comments: [],
+        user: {
+            id: null,
+            name: "",
+            username: "",
+            email: "",
+            address: {
+                street: "",
+                suite: "",
+                city: "",
+                zipcode: "",
+                geo: {
+                    lat: "",
+                    lng: "",
+                },
+            },
+            phone: "",
+            website: "",
+            company: {
+                name: "",
+                catchPhrase: "",
+                bs: "",
             },
         },
-        phone: "",
-        website: "",
-        company: {
-            name: "",
-            catchPhrase: "",
-            bs: "",
-        },
     });
 
-    const [comments, setComments] = useState<CommentType[]>([]);
-
-    const [isLoading, setLoading] = useState<boolean>(false);
-
-    const onSuccessPost = (data: PostType) => {
-        setPost(data);
-    };
-
-    const onSuccessUser = (data: UserType) => {
-        setUser(data);
-    };
-
-    const onSuccessComments = (data: CommentType[]) => {
-        setComments(data);
-    };
-
-    const onError = (data: unknown) => {
-        console.log(data);
-    };
+    const [isLoading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
-        if (!isLoading && numberId && numberId !== 0) {
-            getPost(numberId, onSuccessPost, onError);
+        if (isLoading) {
             setLoading(true);
+            Promise.all([getPost(numberId), getUser(numberId), getComments()])
+                .then(([post, user, comments]) => {
+                    setData({ post, user, comments });
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+                .finally(() => {
+                    setLoading(false);
+                });
         }
-
-        post.userId ? getUser(post.userId, onSuccessUser, onError) : "";
-
-        post.userId ? getComments(onSuccessComments, onError) : "";
-    }, [post, isLoading, numberId]);
+    }, [isLoading, numberId]);
 
     return (
         <>
-            {!isLoading || !post.id || !user.id || comments.length < 0 ? (
+            {isLoading ? (
                 <div className="w-full h-[100px] bg-slate-700 rounded-lg py-[10px] px-[20px] ring-slate-900/5 shadow-lg text-white flex justify-center items-center">
                     Loading...
                 </div>
@@ -98,16 +93,16 @@ const Post = () => {
                                 />
                             </svg>
                         </div>
-                        <div>{user.name}</div>
+                        <div>{data.user.name}</div>
                     </div>
                     <div className="w-full flex flex-col items-start justify-start text-white gap-1 px-[20px] py-[10px]">
-                        <h1 className="text-2xl">{post.title}</h1>
-                        <p className="text-slate-400">{post.body}</p>
+                        <h1 className="text-2xl">{data.post.title}</h1>
+                        <p className="text-slate-400">{data.post.body}</p>
                     </div>
                     <div className="comments">
                         <span>Comments:</span>
-                        {comments
-                            .filter((comment) => comment.postId === post.id)
+                        {data.comments
+                            .filter((comment) => comment.postId === data.post.id)
                             .map((e) => (
                                 <div
                                     key={e.id}
