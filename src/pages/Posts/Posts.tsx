@@ -7,7 +7,20 @@ import { getComments } from "../../services/useComments";
 import { UserType } from "../../types/UserType";
 import { getUsers } from "../../services/useUsers";
 
+import { useSelector, useDispatch } from "react-redux";
+import { addComment, addPost, addUser } from "../../store/actions";
+
+interface State {
+    users: UserType[];
+    posts: PostType[];
+    comments: CommentType[];
+}
+
 const Posts = () => {
+    const globalState = useSelector((state: State) => state);
+    const dispatch = useDispatch();
+    console.log(globalState);
+
     const [text, setText] = useState<string>("");
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -15,11 +28,11 @@ const Posts = () => {
         setText(event.target.value);
     };
 
-    const [data, setData] = useState<{
-        posts: PostType[];
-        comments: CommentType[];
-        users: UserType[];
-    }>({ posts: [], comments: [], users: [] });
+    // const [data, setData] = useState<{
+    //     posts: PostType[];
+    //     comments: CommentType[];
+    //     users: UserType[];
+    // }>({ posts: [], comments: [], users: [] });
 
     const [isLoading, setLoading] = useState<boolean>(true);
 
@@ -28,7 +41,16 @@ const Posts = () => {
             setLoading(true);
             Promise.all([getPosts(), getUsers(), getComments()])
                 .then(([posts, users, comments]) => {
-                    setData({ posts, users, comments });
+                    // setData({ posts, users, comments });
+
+                    if (
+                        globalState.users.length === 0 &&
+                        globalState.posts.length === 0
+                    ) {
+                        dispatch(addPost(posts));
+                        dispatch(addUser(users));
+                        dispatch(addComment(comments));
+                    }
                 })
                 .catch((error) => {
                     console.log(error);
@@ -37,7 +59,7 @@ const Posts = () => {
                     setLoading(false);
                 });
         }
-    }, [isLoading]);
+    }, [dispatch, globalState.comments.length, globalState.posts.length, globalState.users.length, isLoading]);
 
     useEffect(() => {
         if (textareaRef.current) {
@@ -86,8 +108,11 @@ const Posts = () => {
                     Loading...
                 </div>
             ) : (
-                data.posts.map((post) => (
-                    <div className="post post--animation postFlex postContainer__sb bg-slate-700" key={post.id}>
+                globalState.posts.map((post) => (
+                    <div
+                        className="post post--animation postFlex postContainer__sb bg-slate-700"
+                        key={post.id}
+                    >
                         <div className="texts">
                             <div className="w-full flex flex-row items-center justify-start text-white gap-1">
                                 <div>
@@ -105,7 +130,7 @@ const Posts = () => {
                                     </svg>
                                 </div>
                                 <div>
-                                    {data.users
+                                    {globalState.users
                                         .filter((user) => user.id === post.userId)
                                         .map((user) => (
                                             <div key={user.id}>{user.name}</div>
@@ -132,14 +157,11 @@ const Posts = () => {
                                     />
                                 </svg>
 
-                                {data.comments.filter((comment) => comment.postId === post.id)
+                                {globalState.comments.filter((comment) => comment.postId === post.id)
                                     .length || "0"}
                             </div>
                         </div>
-                        <Link
-                            className="link"
-                            to={`Post/${post.id}`}
-                        >
+                        <Link className="link" to={`Post/${post.id}`}>
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"

@@ -8,7 +8,7 @@ const getUsers = async (
 
     try {
         const responseData = await callApi(url, null, null, "GET");
-        console.log(responseData);
+        // console.log(responseData);
         return await responseData;
     } catch (error) {
         console.error(error);
