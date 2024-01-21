@@ -1,38 +1,44 @@
 import { useState, ChangeEvent, useRef, useEffect } from "react";
 import { getPosts } from "../../services/usePosts";
 import { PostType } from "../../types/PostType";
-import { Link } from "react-router-dom";
 import { CommentType } from "../../types/CommentType";
 import { getComments } from "../../services/useComments";
 import { UserType } from "../../types/UserType";
 import { getUsers } from "../../services/useUsers";
 
-import { useSelector, useDispatch } from "react-redux";
-import { addComment, addPost, addUser } from "../../store/actions";
+// import { useSelector, useDispatch } from "react-redux";
+// import { addComment, addPost, addUser } from "../../store/actions";
+import PostCard from "../../components/PostCard";
+import { Link } from "react-router-dom";
+import Loading from "../../components/Loading";
 
-interface State {
-    users: UserType[];
-    posts: PostType[];
-    comments: CommentType[];
-}
+// interface State {
+//     users: UserType[];
+//     posts: PostType[];
+//     comments: CommentType[];
+// }
 
 const Posts = () => {
-    const globalState = useSelector((state: State) => state);
-    const dispatch = useDispatch();
-    console.log(globalState);
+    // const globalState = useSelector((state: State) => state);
+    // const dispatch = useDispatch();
+    // console.log(globalState);
 
-    const [text, setText] = useState<string>("");
+    const [searchText, setSearchText] = useState<string>("");
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
     const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-        setText(event.target.value);
+        setSearchText(event.target.value);
     };
 
-    // const [data, setData] = useState<{
-    //     posts: PostType[];
-    //     comments: CommentType[];
-    //     users: UserType[];
-    // }>({ posts: [], comments: [], users: [] });
+    const [data, setData] = useState<{
+        posts: PostType[];
+        comments: CommentType[];
+        users: UserType[];
+    }>({ posts: [], comments: [], users: [] });
+
+    const filteredPosts = data.posts.filter((post) =>
+        post.title.toLowerCase().includes(searchText.toLowerCase()),
+    );
 
     const [isLoading, setLoading] = useState<boolean>(true);
 
@@ -41,16 +47,13 @@ const Posts = () => {
             setLoading(true);
             Promise.all([getPosts(), getUsers(), getComments()])
                 .then(([posts, users, comments]) => {
-                    // setData({ posts, users, comments });
+                    setData({ posts, users, comments });
 
-                    if (
-                        globalState.users.length === 0 &&
-                        globalState.posts.length === 0
-                    ) {
-                        dispatch(addPost(posts));
-                        dispatch(addUser(users));
-                        dispatch(addComment(comments));
-                    }
+                    // if (globalState.users.length === 0 && globalState.posts.length === 0) {
+                    //     dispatch(addPost(posts));
+                    //     dispatch(addUser(users));
+                    //     dispatch(addComment(comments));
+                    // }
                 })
                 .catch((error) => {
                     console.log(error);
@@ -59,18 +62,24 @@ const Posts = () => {
                     setLoading(false);
                 });
         }
-    }, [dispatch, globalState.comments.length, globalState.posts.length, globalState.users.length, isLoading]);
+    }, [
+        // dispatch,
+        // globalState.comments.length,
+        // globalState.posts.length,
+        // globalState.users.length,
+        isLoading,
+    ]);
 
     useEffect(() => {
         if (textareaRef.current) {
             textareaRef.current.style.height = "50px";
             textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
         }
-    }, [text]);
+    }, [searchText]);
 
     return (
-        <div className="w-full flex flex-col">
-            <div className="w-full h-full bg-slate-700 rounded-lg py-[10px] px-[20px] ring-slate-900/5 shadow-lg text-white flex flex-col justify-center items-center mb-[20px]">
+        <div className="w-full flex flex-col items-center">
+            <div className="w-full h-full bg-slate-700 rounded-lg py-[10px] px-[20px] ring-slate-900/5 shadow-lg text-white flex flex-col justify-center items-center mb-[10px]">
                 <div className="w-full flex flex-row gap-1">
                     <div>
                         <svg
@@ -81,15 +90,15 @@ const Posts = () => {
                         >
                             <path
                                 fillRule="evenodd"
-                                d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"
+                                d="M10.5 3.75a6.75 6.75 0 1 0 0 13.5 6.75 6.75 0 0 0 0-13.5ZM2.25 10.5a8.25 8.25 0 1 1 14.59 5.28l4.69 4.69a.75.75 0 1 1-1.06 1.06l-4.69-4.69A8.25 8.25 0 0 1 2.25 10.5Z"
                                 clipRule="evenodd"
                             />
                         </svg>
                     </div>
                     <textarea
-                        className="w-full h-[1px] min-h-[50px] max-h-[300px] rounded-lg bg-slate-600 px-[20px] py-[10px] mb-1"
+                        className="w-full h-[1px] min-h-[50px] max-h-[300px] rounded-lg bg-slate-600 px-[20px] py-[10px]"
                         ref={textareaRef}
-                        value={text}
+                        value={searchText}
                         onChange={handleChange}
                         placeholder="Write something"
                         style={{
@@ -97,88 +106,37 @@ const Posts = () => {
                         }}
                     />
                 </div>
-                <div className="w-full flex h-full justify-end">
-                    <button className="px-[20px] py-[10px] bg-slate-600 hover:bg-slate-500 rounded-lg">
-                        Publish
-                    </button>
-                </div>
+            </div>
+            <div className="w-full flex justify-start">
+                <Link
+                    className="w-fit flex flex-row items-center justify-start gap-1 text-white font-bold transition duration-700 ease-in-out bg-slate-600 hover:bg-slate-500 rounded-lg px-2 py-1 mb-1"
+                    to="PostNew"
+                >
+                    <div>
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            fill="currentColor"
+                            className="w-4 h-4"
+                        >
+                            <path
+                                fillRule="evenodd"
+                                d="M12 3.75a.75.75 0 01.75.75v6.75h6.75a.75.75 0 010 1.5h-6.75v6.75a.75.75 0 01-1.5 0v-6.75H4.5a.75.75 0 010-1.5h6.75V4.5a.75.75 0 01.75-.75z"
+                                clipRule="evenodd"
+                            />
+                        </svg>
+                    </div>
+                    <div>Add</div>
+                </Link>
             </div>
             {isLoading ? (
-                <div className="w-full h-[100px] bg-slate-700 rounded-lg py-[10px] px-[20px] ring-slate-900/5 shadow-lg text-white flex justify-center items-center">
-                    Loading...
-                </div>
+                <Loading />
             ) : (
-                globalState.posts.map((post) => (
-                    <div
-                        className="post post--animation postFlex postContainer__sb bg-slate-700"
-                        key={post.id}
-                    >
-                        <div className="texts">
-                            <div className="w-full flex flex-row items-center justify-start text-white gap-1">
-                                <div>
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 24 24"
-                                        fill="currentColor"
-                                        className="w-4 h-4"
-                                    >
-                                        <path
-                                            fillRule="evenodd"
-                                            d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"
-                                            clipRule="evenodd"
-                                        />
-                                    </svg>
-                                </div>
-                                <div>
-                                    {globalState.users
-                                        .filter((user) => user.id === post.userId)
-                                        .map((user) => (
-                                            <div key={user.id}>{user.name}</div>
-                                        ))}
-                                </div>
-                            </div>
-
-                            <div className="w-full flex flex-col items-start justify-start text-white gap-1 px-[20px] py-[10px]">
-                                <h1 className="text-2xl">{post.title}</h1>
-                                <p className="text-slate-400">{post.body}</p>
-                            </div>
-
-                            <div className="inline-flex gap-1">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 24 24"
-                                    fill="currentColor"
-                                    className="w-4 h-4 text-white"
-                                >
-                                    <path
-                                        fillRule="evenodd"
-                                        d="M4.848 2.771A49.144 49.144 0 0112 2.25c2.43 0 4.817.178 7.152.52 1.978.292 3.348 2.024 3.348 3.97v6.02c0 1.946-1.37 3.678-3.348 3.97a48.901 48.901 0 01-3.476.383.39.39 0 00-.297.17l-2.755 4.133a.75.75 0 01-1.248 0l-2.755-4.133a.39.39 0 00-.297-.17 48.9 48.9 0 01-3.476-.384c-1.978-.29-3.348-2.024-3.348-3.97V6.741c0-1.946 1.37-3.68 3.348-3.97zM6.75 8.25a.75.75 0 01.75-.75h9a.75.75 0 010 1.5h-9a.75.75 0 01-.75-.75zm.75 2.25a.75.75 0 000 1.5H12a.75.75 0 000-1.5H7.5z"
-                                        clipRule="evenodd"
-                                    />
-                                </svg>
-
-                                {globalState.comments.filter((comment) => comment.postId === post.id)
-                                    .length || "0"}
-                            </div>
-                        </div>
-                        <Link className="link" to={`Post/${post.id}`}>
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                strokeWidth={1.5}
-                                stroke="currentColor"
-                                className="w-5 h-5"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9"
-                                />
-                            </svg>
-                        </Link>
-                    </div>
-                ))
+                <div className="containerPosts">
+                    {filteredPosts.map((post) => (
+                        <PostCard key={post.id} post={post} data={data} />
+                    ))}
+                </div>
             )}
         </div>
     );

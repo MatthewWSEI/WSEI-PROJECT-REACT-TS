@@ -24,7 +24,7 @@ const PostLayout = () => {
                     </div>
                     <div>Back</div>
                 </Link>
-                <Link
+                {/* <Link
                     className="flex flex-row items-center gap-1 text-white font-bold transition duration-700 ease-in-out hover:bg-slate-500 rounded-lg px-2 py-1"
                     to="Edit"
                 >
@@ -40,7 +40,7 @@ const PostLayout = () => {
                         </svg>
                     </div>
                     <div>Edit</div>
-                </Link>
+                </Link> */}
             </div>
             <Outlet />
         </div>

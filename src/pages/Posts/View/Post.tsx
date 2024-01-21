@@ -6,12 +6,25 @@ import { getUser } from "../../../services/useUsers";
 import { UserType } from "../../../types/UserType";
 import { CommentType } from "../../../types/CommentType";
 import { getComments } from "../../../services/useComments";
+import { useSelector } from "react-redux";
 
 type MyParams = {
     id: "";
 };
+interface State {
+    users: UserType[];
+    posts: PostType[];
+    comments: CommentType[];
+}
 
 const Post = () => {
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    const globalState = useSelector((state: State) => state);
+    console.log(globalState);
+
+    // const commentsState = true ? globalState.comments : sss.comments;
+    // const filteredComments = commentsState.filter((comment) => comment.postId === data.post.id);
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     const { id } = useParams<MyParams>();
     const numberId = Number(id);
 
