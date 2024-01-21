@@ -2,10 +2,10 @@ import { Outlet, Link } from "react-router-dom";
 
 const UserLayout = () => {
     return (
-        <div>
-            <div className="flex flex-row items-center justify-between mb-2">
+        <>
+            <div className="w-full h-[50px] flex flex-row items-center justify-between mb-1">
                 <Link
-                    className="flex flex-row items-center gap-1 text-white font-bold transition duration-700 ease-in-out hover:bg-slate-500 rounded-lg px-2 py-1"
+                    className="w-fit flex flex-row items-center justify-start gap-1 text-white font-bold transition duration-700 ease-in-out bg-slate-600 hover:bg-slate-500 rounded-lg px-2 py-1"
                     to="/Users"
                 >
                     <div>
@@ -25,7 +25,7 @@ const UserLayout = () => {
                     <div>Back</div>
                 </Link>
                 <Link
-                    className="flex flex-row items-center gap-1 text-white font-bold transition duration-700 ease-in-out hover:bg-slate-500 rounded-lg px-2 py-1"
+                    className="w-fit flex flex-row items-center justify-start gap-1 text-white font-bold transition duration-700 ease-in-out bg-slate-600 hover:bg-slate-500 rounded-lg px-2 py-1"
                     to="Edit"
                 >
                     <div>
@@ -43,7 +43,7 @@ const UserLayout = () => {
                 </Link>
             </div>
             <Outlet />
-        </div>
+        </>
     );
 };
 

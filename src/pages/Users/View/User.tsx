@@ -3,6 +3,7 @@ import { UserType } from "../../../types/UserType";
 import { useEffect, useState } from "react";
 import { getUser } from "../../../services/useUsers";
 import Loading from "../../../components/Loading";
+import UserCard from "../../../components/UserCard";
 
 type MyParams = {
     id: "";
@@ -66,31 +67,7 @@ const User = () => {
             ) : (
                 <div className="containerUser text-white">
                     <div className="flex flex-col gap-[10px]">
-                        <div className="bg-slate-700 rounded-lg py-[10px] px-[20px] ring-slate-900/5 shadow-lg text-white flex flex-col">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 24 24"
-                                fill="currentColor"
-                                className="w-7 h-7"
-                            >
-                                <path
-                                    fillRule="evenodd"
-                                    d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"
-                                    clipRule="evenodd"
-                                />
-                            </svg>
-                            <div></div>
-                            <h2 className="text-2xl">{user.name}</h2>
-                            <p className="text-xl mb-2 text-slate-400">({user.username})</p>
-                            <label>
-                                <h3>Company:</h3>
-                                <p className="text-slate-400 mb-1">{user.company.name}</p>
-                            </label>
-                            <label>
-                                <h3>Position:</h3>
-                                <p className="text-slate-400">{user.company.catchPhrase}</p>
-                            </label>
-                        </div>
+                        <UserCard user={user} show={false}/>
                         <div className="bg-slate-700 rounded-lg py-[10px] px-[20px] ring-slate-900/5 shadow-lg text-white ">
                             <label>
                                 <h3>Email:</h3>
@@ -113,9 +90,9 @@ const User = () => {
                         </div>
                     </div>
                     <div>
-                        <div className="w-full h-[50px] flex flex-row gap-1 mb-[10px]">
+                        <div className="w-full min-h-[50px] flex flex-row flex-wrap gap-1 mb-[10px]">
                             <Link
-                                className="w-fit flex flex-row items-center justify-start gap-1 text-white font-bold transition duration-700 ease-in-out bg-slate-600 hover:bg-slate-500 rounded-lg px-2 py-1"
+                                className="w-fit h-[50px] flex flex-row items-center justify-start gap-1 text-white font-bold transition duration-700 ease-in-out bg-slate-600 hover:bg-slate-500 rounded-lg px-2 py-1"
                                 to={`/User/${numberId}/Posts`}
                             >
                                 <div>
@@ -127,15 +104,16 @@ const User = () => {
                                     >
                                         <path
                                             fillRule="evenodd"
-                                            d="M12 3.75a.75.75 0 01.75.75v6.75h6.75a.75.75 0 010 1.5h-6.75v6.75a.75.75 0 01-1.5 0v-6.75H4.5a.75.75 0 010-1.5h6.75V4.5a.75.75 0 01.75-.75z"
+                                            d="M4.125 3C3.089 3 2.25 3.84 2.25 4.875V18a3 3 0 0 0 3 3h15a3 3 0 0 1-3-3V4.875C17.25 3.839 16.41 3 15.375 3H4.125ZM12 9.75a.75.75 0 0 0 0 1.5h1.5a.75.75 0 0 0 0-1.5H12Zm-.75-2.25a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 0 1.5H12a.75.75 0 0 1-.75-.75ZM6 12.75a.75.75 0 0 0 0 1.5h7.5a.75.75 0 0 0 0-1.5H6Zm-.75 3.75a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5H6a.75.75 0 0 1-.75-.75ZM6 6.75a.75.75 0 0 0-.75.75v3c0 .414.336.75.75.75h3a.75.75 0 0 0 .75-.75v-3A.75.75 0 0 0 9 6.75H6Z"
                                             clipRule="evenodd"
                                         />
+                                        <path d="M18.75 6.75h1.875c.621 0 1.125.504 1.125 1.125V18a1.5 1.5 0 0 1-3 0V6.75Z" />
                                     </svg>
                                 </div>
                                 <div>Posts</div>
                             </Link>
                             <Link
-                                className="w-fit flex flex-row items-center justify-start gap-1 text-white font-bold transition duration-700 ease-in-out bg-slate-600 hover:bg-slate-500 rounded-lg px-2 py-1"
+                                className="w-fit h-[50px] flex flex-row items-center justify-start gap-1 text-white font-bold transition duration-700 ease-in-out bg-slate-600 hover:bg-slate-500 rounded-lg px-2 py-1"
                                 to={`/User/${numberId}/Albums`}
                             >
                                 <div>
@@ -147,7 +125,7 @@ const User = () => {
                                     >
                                         <path
                                             fillRule="evenodd"
-                                            d="M12 3.75a.75.75 0 01.75.75v6.75h6.75a.75.75 0 010 1.5h-6.75v6.75a.75.75 0 01-1.5 0v-6.75H4.5a.75.75 0 010-1.5h6.75V4.5a.75.75 0 01.75-.75z"
+                                            d="M1.5 6a2.25 2.25 0 0 1 2.25-2.25h16.5A2.25 2.25 0 0 1 22.5 6v12a2.25 2.25 0 0 1-2.25 2.25H3.75A2.25 2.25 0 0 1 1.5 18V6ZM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0 0 21 18v-1.94l-2.69-2.689a1.5 1.5 0 0 0-2.12 0l-.88.879.97.97a.75.75 0 1 1-1.06 1.06l-5.16-5.159a1.5 1.5 0 0 0-2.12 0L3 16.061Zm10.125-7.81a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Z"
                                             clipRule="evenodd"
                                         />
                                     </svg>
@@ -155,7 +133,7 @@ const User = () => {
                                 <div>Albums</div>
                             </Link>
                             <Link
-                                className="w-fit flex flex-row items-center justify-start gap-1 text-white font-bold transition duration-700 ease-in-out bg-slate-600 hover:bg-slate-500 rounded-lg px-2 py-1"
+                                className="w-fit h-[50px] flex flex-row items-center justify-start gap-1 text-white font-bold transition duration-700 ease-in-out bg-slate-600 hover:bg-slate-500 rounded-lg px-2 py-1"
                                 to={`/User/${numberId}/Todo`}
                             >
                                 <div>
