@@ -12,7 +12,7 @@ const Header = () => {
                 <h2 className="text-2xl font-bold text-white">MatWeb</h2>
             </NavLink>
 
-            <nav className="flex flex-row gap-1 max-sm:hidden">
+            <nav className="flex h-[50px] flex-row gap-1 max-sm:hidden">
                 <NavLink
                     className={({ isActive }) =>
                         (isActive ? " bg-slate-600 " : "") +
@@ -84,11 +84,31 @@ const Header = () => {
                     </div>
                     <div className="font-bold text-white">Users</div>
                 </NavLink>
+                <NavLink
+                    className={({ isActive }) =>
+                        (isActive ? " bg-slate-600 " : "") +
+                        "transition duration-700 ease-in-out hover:bg-slate-500 rounded-lg px-2 py-1 text-white flex justify-center flex-row items-center gap-1"
+                    }
+                    to="/Albums"
+                >
+                    <div className="hidden md:block">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            fill="currentColor"
+                            className="w-4 h-4"
+                        >
+                            <path
+                                fillRule="evenodd"
+                                d="M1.5 6a2.25 2.25 0 0 1 2.25-2.25h16.5A2.25 2.25 0 0 1 22.5 6v12a2.25 2.25 0 0 1-2.25 2.25H3.75A2.25 2.25 0 0 1 1.5 18V6ZM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0 0 21 18v-1.94l-2.69-2.689a1.5 1.5 0 0 0-2.12 0l-.88.879.97.97a.75.75 0 1 1-1.06 1.06l-5.16-5.159a1.5 1.5 0 0 0-2.12 0L3 16.061Zm10.125-7.81a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Z"
+                                clipRule="evenodd"
+                            />
+                        </svg>
+                    </div>
+                    <div className="font-bold text-white">Albums</div>
+                </NavLink>
             </nav>
-            <div
-                className="sm:hidden cursor-pointer"
-                onClick={() => setOpen(!open)}
-            >
+            <div className="sm:hidden cursor-pointer" onClick={() => setOpen(!open)}>
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"

@@ -186,3 +186,10 @@ button {
         }
     }
 }
+
+@media screen and (max-width: $tablets) {
+
+    .container{
+        padding: 10px 10px;
+    }
+}

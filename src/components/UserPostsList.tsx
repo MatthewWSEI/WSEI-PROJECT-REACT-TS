@@ -65,9 +65,7 @@ const UserPostsList = () => {
         }
     }, [isLoading, numberId]);
 
-    const filteredPosts = data.posts.filter((post) =>
-        post.userId === numberId,
-    );
+    const filteredPosts = data.posts.filter((post) => post.userId === numberId);
     return (
         <div>
             {isLoading ? (
