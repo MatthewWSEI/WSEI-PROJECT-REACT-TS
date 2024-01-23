@@ -135,12 +135,15 @@ const PostEdit = () => {
             <form>
                 <label className="flex gap-1 flex-col  mb-1">
                     <p>Title</p>
-                    <input
+                    <textarea
                         className="w-full h-[1px] min-h-[50px] max-h-[300px] rounded-lg bg-slate-600 px-[10px] py-[5px]"
-                        type="text"
+                        ref={textareaRef}
                         name="title"
                         value={formData.title}
                         placeholder="Write something"
+                        style={{
+                            resize: "none",
+                        }}
                         onChange={(e) => handleChange(e, titleCharsLimit)}
                     />
                     <span>

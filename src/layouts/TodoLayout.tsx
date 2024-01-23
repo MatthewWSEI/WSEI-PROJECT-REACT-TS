@@ -3,9 +3,9 @@ import { Outlet, Link } from "react-router-dom";
 const TodoLayout = () => {
     return (
         <div>
-            <div className="flex flex-row items-center justify-between mb-2">
+            <div className="w-full h-[50px] flex justify-start mb-1">
                 <Link
-                    className="flex flex-row items-center gap-1 text-white font-bold transition duration-700 ease-in-out hover:bg-slate-500 rounded-lg px-2 py-1"
+                    className="w-fit flex flex-row items-center justify-start gap-1 text-white font-bold transition duration-700 ease-in-out bg-slate-600 hover:bg-slate-500 rounded-lg px-2 py-1"
                     to="/Todos"
                 >
                     <div>
@@ -24,7 +24,7 @@ const TodoLayout = () => {
                     </div>
                     <div>Back</div>
                 </Link>
-                <Link
+                {/* <Link
                     className="flex flex-row items-center gap-1 text-white font-bold transition duration-700 ease-in-out hover:bg-slate-500 rounded-lg px-2 py-1"
                     to="Edit"
                 >
@@ -40,7 +40,7 @@ const TodoLayout = () => {
                         </svg>
                     </div>
                     <div>Edit</div>
-                </Link>
+                </Link> */}
             </div>
             <Outlet />
         </div>

@@ -72,7 +72,7 @@ const Users = () => {
             <div className="w-full h-[50px] flex justify-start mb-1">
                 <Link
                     className="w-fit flex flex-row items-center justify-start gap-1 text-white font-bold transition duration-700 ease-in-out bg-slate-600 hover:bg-slate-500 rounded-lg px-2 py-1"
-                    to="UserNew"
+                    to="/User/NewUser"
                 >
                     <div>
                         <svg
