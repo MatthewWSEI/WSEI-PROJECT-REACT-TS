@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addPost } from "../../../store/actions";
 // import { UserType } from "../../../types/UserType";
 // import { CommentType } from "../../../types/CommentType";
-
+import { useNavigate } from "react-router-dom";
 interface State {
     // users: UserType[];
     posts: PostType;
@@ -16,6 +16,8 @@ const PostNew = () => {
     const globalState = useSelector((state: State) => state);
     const dispatch = useDispatch();
     console.log(globalState);
+
+    const navigate = useNavigate();
 
     const [post, setPost] = useState<PostType>({
         id: null,
@@ -107,6 +109,7 @@ const PostNew = () => {
                 userId: 13636,
             }),
         );
+        navigate("/");
     };
 
     return (

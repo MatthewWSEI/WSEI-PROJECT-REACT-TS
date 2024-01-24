@@ -91,26 +91,26 @@ const User = () => {
                 <div className="containerUser text-white">
                     <div className="flex flex-col gap-[10px]">
                         <UserCard user={user} show={false} />
-                        {/* <div className="bg-slate-700 rounded-lg py-[10px] px-[20px] ring-slate-900/5 shadow-lg text-white ">
+                        <div className="bg-slate-700 rounded-lg py-[10px] px-[20px] ring-slate-900/5 shadow-lg text-white ">
                             <label>
                                 <h3>Email:</h3>
-                                <p className="text-slate-400">{filteredUsers.email}</p>
+                                <p className="text-slate-400">{user.email}</p>
                             </label>
                             <label>
                                 <h3>Phone:</h3>
-                                <p className="text-slate-400">{filteredUsers.phone}</p>
+                                <p className="text-slate-400">{user.phone}</p>
                             </label>
                             <label>
                                 <h3>Address:</h3>
-                                <p className="text-slate-400">{`${filteredUsers.address.street}, ${filteredUsers.address.suite}, ${filteredUsers.address.city}, ${filteredUsers.address.zipcode}`}</p>
+                                <p className="text-slate-400">{`${user.address.street}, ${user.address.suite}, ${user.address.city}, ${user.address.zipcode}`}</p>
                             </label>
                         </div>
                         <div className="bg-slate-700 rounded-lg py-[10px] px-[20px] ring-slate-900/5 shadow-lg text-white">
                             <label>
                                 <h3>Website:</h3>
-                                <p className="text-slate-400">{filteredUsers.website}</p>
+                                <p className="text-slate-400">{user.website}</p>
                             </label>
-                        </div> */}
+                        </div>
                     </div>
                     <div>
                         <div className="w-full min-h-[50px] flex flex-row flex-wrap gap-1 mb-[10px]">
