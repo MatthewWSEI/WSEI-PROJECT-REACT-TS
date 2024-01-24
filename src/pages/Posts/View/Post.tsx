@@ -7,6 +7,7 @@ import { UserType } from "../../../types/UserType";
 import { CommentType } from "../../../types/CommentType";
 import { getComments } from "../../../services/useComments";
 import { useSelector } from "react-redux";
+import Loading from "../../../components/Loading";
 
 type MyParams = {
     id: "";
@@ -86,9 +87,7 @@ const Post = () => {
     return (
         <>
             {isLoading ? (
-                <div className="w-full h-[100px] bg-slate-700 rounded-lg py-[10px] px-[20px] ring-slate-900/5 shadow-lg text-white flex justify-center items-center">
-                    Loading...
-                </div>
+                <Loading />
             ) : (
                 <div className="post postContainer__fs bg-slate-700">
                     <div className="w-full flex flex-row items-center text-white text-xl gap-1">

@@ -14,4 +14,16 @@ const getAlbums = async () => {
     }
 };
 
-export { getAlbums };
+const getAlbum = async (id: unknown,) => {
+    const url = `${API_URL}/albums/${id}`;
+
+    try {
+        const responseData = await callApi(url, null, null, "GET");
+        // console.log(responseData);
+        return await responseData;
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+export { getAlbums, getAlbum };

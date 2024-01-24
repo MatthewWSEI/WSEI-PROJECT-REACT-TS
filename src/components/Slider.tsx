@@ -11,35 +11,32 @@ const Slider: React.FC<SliderProps> = ({ setOpen }) => {
                 <div className="flex flex-col justify-center items-start gap-1 w-min h-full">
                     <NavLink
                         className={({ isActive }) =>
-                            (isActive ? " bg-slate-700 " : "") +
-                            "text-4xl transition duration-700 ease-in-out hover:bg-slate-500 rounded-lg px-2 py-1 text-white flex justify-center flex-row items-center gap-1"
+                            (isActive ? " bg-slate-600 " : "") +
+                            "text-4xl transition duration-700 ease-in-out  hover:bg-slate-500 rounded-lg px-2 py-1 text-white flex justify-center flex-row items-center gap-1"
                         }
                         to="/"
                     >
-                        <div>
+                        <div className=" md:block">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 24 24"
                                 fill="currentColor"
                                 className="w-5 h-5 text-white"
                             >
-                                <path
-                                    fillRule="evenodd"
-                                    d="M4.848 2.771A49.144 49.144 0 0112 2.25c2.43 0 4.817.178 7.152.52 1.978.292 3.348 2.024 3.348 3.97v6.02c0 1.946-1.37 3.678-3.348 3.97a48.901 48.901 0 01-3.476.383.39.39 0 00-.297.17l-2.755 4.133a.75.75 0 01-1.248 0l-2.755-4.133a.39.39 0 00-.297-.17 48.9 48.9 0 01-3.476-.384c-1.978-.29-3.348-2.024-3.348-3.97V6.741c0-1.946 1.37-3.68 3.348-3.97zM6.75 8.25a.75.75 0 01.75-.75h9a.75.75 0 010 1.5h-9a.75.75 0 01-.75-.75zm.75 2.25a.75.75 0 000 1.5H12a.75.75 0 000-1.5H7.5z"
-                                    clipRule="evenodd"
-                                />
+                                <path d="M11.47 3.84a.75.75 0 011.06 0l8.69 8.69a.75.75 0 101.06-1.06l-8.689-8.69a2.25 2.25 0 00-3.182 0l-8.69 8.69a.75.75 0 001.061 1.06l8.69-8.69z" />
+                                <path d="M12 5.432l8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 01-.75-.75v-4.5a.75.75 0 00-.75-.75h-3a.75.75 0 00-.75.75V21a.75.75 0 01-.75.75H5.625a1.875 1.875 0 01-1.875-1.875v-6.198a2.29 2.29 0 00.091-.086L12 5.43z" />
                             </svg>
                         </div>
                         <div className="font-bold text-white">Home</div>
                     </NavLink>
                     <NavLink
                         className={({ isActive }) =>
-                            (isActive ? " bg-slate-700 " : "") +
+                            (isActive ? " bg-slate-600 " : "") +
                             "text-4xl transition duration-700 ease-in-out hover:bg-slate-500 rounded-lg px-2 py-1 text-white flex justify-center flex-row items-center gap-1"
                         }
                         to="Todos"
                     >
-                        <div>
+                        <div className=" md:block">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 24 24"
@@ -62,12 +59,12 @@ const Slider: React.FC<SliderProps> = ({ setOpen }) => {
                     </NavLink>
                     <NavLink
                         className={({ isActive }) =>
-                            (isActive ? " bg-slate-700 " : "") +
+                            (isActive ? " bg-slate-600 " : "") +
                             "text-4xl transition duration-700 ease-in-out hover:bg-slate-500 rounded-lg px-2 py-1 text-white flex justify-center flex-row items-center gap-1"
                         }
                         to="Users"
                     >
-                        <div>
+                        <div className=" md:block">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 24 24"
@@ -81,7 +78,30 @@ const Slider: React.FC<SliderProps> = ({ setOpen }) => {
                                 />
                             </svg>
                         </div>
-                        <div className="font-bold text-white">Profile</div>
+                        <div className="font-bold text-white">Users</div>
+                    </NavLink>
+                    <NavLink
+                        className={({ isActive }) =>
+                            (isActive ? " bg-slate-600 " : "") +
+                            "text-4xl transition duration-700 ease-in-out hover:bg-slate-500 rounded-lg px-2 py-1 text-white flex justify-center flex-row items-center gap-1"
+                        }
+                        to="/Albums"
+                    >
+                        <div className=" md:block">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                                className="w-5 h-5"
+                            >
+                                <path
+                                    fillRule="evenodd"
+                                    d="M1.5 6a2.25 2.25 0 0 1 2.25-2.25h16.5A2.25 2.25 0 0 1 22.5 6v12a2.25 2.25 0 0 1-2.25 2.25H3.75A2.25 2.25 0 0 1 1.5 18V6ZM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0 0 21 18v-1.94l-2.69-2.689a1.5 1.5 0 0 0-2.12 0l-.88.879.97.97a.75.75 0 1 1-1.06 1.06l-5.16-5.159a1.5 1.5 0 0 0-2.12 0L3 16.061Zm10.125-7.81a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Z"
+                                    clipRule="evenodd"
+                                />
+                            </svg>
+                        </div>
+                        <div className="font-bold text-white">Albums</div>
                     </NavLink>
                 </div>
             </nav>

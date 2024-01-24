@@ -4,8 +4,19 @@ import { UserType } from "../../types/UserType";
 import { getUsers } from "../../services/useUsers";
 import Loading from "../../components/Loading";
 import UserCard from "../../components/UserCard";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { addUser } from "../../store/actions";
+
+interface State {
+    users: UserType[];
+}
 
 const Users = () => {
+    const globalState = useSelector((state: State) => state);
+    const dispatch = useDispatch();
+    console.log(globalState);
+
     const [searchText, setSearchText] = useState<string>("");
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -13,11 +24,11 @@ const Users = () => {
         setSearchText(event.target.value);
     };
 
-    const [users, setUsers] = useState<UserType[]>([]);
+    // const [users, setUsers] = useState<UserType[]>([]);
 
     const [isLoading, setLoading] = useState<boolean>(true);
 
-    const filteredUsers = users.filter((user) =>
+    const filteredUsers = globalState.users.filter((user) =>
         user.name.toLowerCase().includes(searchText.toLowerCase()),
     );
 
@@ -27,7 +38,8 @@ const Users = () => {
                 setLoading(true);
                 try {
                     const userData = await getUsers();
-                    setUsers(userData);
+                    // setUsers(userData);
+                    dispatch(addUser(userData));
                 } catch (error) {
                     console.error(error);
                 } finally {
@@ -37,7 +49,7 @@ const Users = () => {
         };
 
         fetchData();
-    }, [isLoading]);
+    }, [dispatch, isLoading]);
 
     return (
         <div className="w-full flex flex-col items-center">

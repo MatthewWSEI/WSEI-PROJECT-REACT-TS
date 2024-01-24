@@ -7,29 +7,31 @@ import {
 } from "react-router-dom";
 import AppLayout from "./layouts/AppLayout/AppLayout";
 
-import Posts from "./pages/Posts/Posts";
 import PostLayout from "./layouts/PostLayout";
+import Posts from "./pages/Posts/Posts";
 import Post from "./pages/Posts/View/Post";
 import PostEdit from "./pages/Posts/View/PostEdit";
 import PostNew from "./pages/Posts/View/PostNew";
 
-import TodoList from "./pages/Todo/TodoList";
 import TodoLayout from "./layouts/TodoLayout";
+import TodoList from "./pages/Todo/TodoList";
 import Todo from "./pages/Todo/View/Todo";
 import TodoEdit from "./pages/Todo/View/TodoEdit";
+import TodoNew from "./pages/Todo/View/TodoNew";
 
-import Users from "./pages/Users/Users";
 import UserLayout from "./layouts/UserLayout";
-
-import NotFound from "./pages/NotFound";
+import Users from "./pages/Users/Users";
 import User from "./pages/Users/View/User";
 import UserPostsList from "./components/UserPostsList";
 import UserAlbumsList from "./components/UserAlbumsList";
 import UserTodoList from "./components/UserTodoList";
+
 import AlbumsLayout from "./layouts/AlbumsLayout";
 import Albums from "./pages/Albums/Albums";
-import TodoNew from "./pages/Todo/View/TodoNew";
+import Album from "./pages/Albums/View/Album";
 import AlbumNew from "./pages/Albums/View/AlbumNew";
+
+import NotFound from "./pages/NotFound";
 // const Posts = lazy(() => import("./pages/Posts"));
 // const Todo = lazy(() => import("./pages/Todo"));
 // const Profile = lazy(() => import("./pages/Profile"));
@@ -76,7 +78,7 @@ const App = () => {
 
                 <Route path="/Albums" element={<Albums />} />
                 <Route path="Album/:id" element={<AlbumsLayout />}>
-                    <Route index element={<Todo />} />
+                    <Route index element={<Album />} />
                     <Route path="Edit" element={<TodoEdit />} />
                 </Route>
                 <Route path="Album/" element={<AlbumsLayout />}>

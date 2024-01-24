@@ -2,8 +2,7 @@ import { callApi } from "./useApi";
 
 const API_URL: string = "https://jsonplaceholder.typicode.com";
 
-const getUsers = async (
-) => {
+const getUsers = async () => {
     const url = `${API_URL}/users`;
 
     try {
@@ -15,9 +14,7 @@ const getUsers = async (
     }
 };
 
-const getUser = async (
-    id: unknown,
-) => {
+const getUser = async (id: unknown) => {
     const url = `${API_URL}/users/${id}`;
 
     try {
@@ -26,7 +23,8 @@ const getUser = async (
         return await responseData;
     } catch (error) {
         console.error(error);
+        throw new Error("Parameter NotFound");
     }
 };
 
-export { getUsers,getUser };
+export { getUsers, getUser };

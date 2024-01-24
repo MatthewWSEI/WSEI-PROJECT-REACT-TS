@@ -8,7 +8,7 @@
 
 body {
     background-color: #1e293b;
-    font-family: 'Arial', sans-serif;
+    font-family: "Arial", sans-serif;
     min-width: 320px;
     overscroll-behavior-y: none;
     overflow-y: scroll;
@@ -44,7 +44,8 @@ input {
     }
 }
 
-p, textarea{
+p,
+textarea {
     line-height: 1.2;
 }
 
@@ -62,7 +63,7 @@ button {
     justify-content: center;
 }
 
-.container{
+.container {
     width: 100%;
     max-width: 1200px;
     height: 100%;
@@ -79,7 +80,7 @@ button {
     z-index: 999;
 }
 
-.containerPosts{
+.containerPosts {
     width: 100%;
     display: grid;
     height: 100%;
@@ -89,8 +90,7 @@ button {
     gap: 10px;
 }
 
-
-.post{
+.post {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -107,23 +107,19 @@ button {
     transition: 0.7s;
 }
 
-.article{
-
+.article {
 }
-.buttonArea{
+.buttonArea {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 }
 
-
-.postContainer__sb{
+.postContainer__sb {
     justify-content: space-between;
-
 }
-.postContainer__fs{
+.postContainer__fs {
     justify-content: flex-start;
-
 }
 
 .texts {
@@ -134,11 +130,11 @@ button {
     gap: 0.5rem;
 }
 
-.containerCard{
+.containerCard {
     height: 100%;
     position: relative;
 }
-.card{
+.card {
     padding: 10px 20px;
     // display: none;
     display: flex;
@@ -150,12 +146,12 @@ button {
     height: 50px;
     transition: 0.8s;
 }
-.card--open{
+.card--open {
     right: 0;
     display: flex;
     width: 100%;
 }
-.containerUser{
+.containerUser {
     width: 100%;
     display: grid;
     height: 100%;
@@ -165,31 +161,34 @@ button {
     gap: 10px;
 }
 
-.user{
+.user {
     display: grid;
     width: 100%;
 }
+
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px,1fr));
+    gap: 10px;
+}
 @media screen and (min-width: $tablets) {
-
-    .containerPosts{
-        grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); 
-
+    .containerPosts {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     }
 
-    .containerUser{
+    .containerUser {
         grid-template-columns: 300px 1fr;
     }
 
-    .post--animation{
-        &:hover{
+    .post--animation {
+        &:hover {
             margin: 4px 0 12px 0;
         }
     }
 }
 
 @media screen and (max-width: $tablets) {
-
-    .container{
+    .container {
         padding: 10px 10px;
     }
 }

@@ -5,23 +5,23 @@ import { CommentType } from "../../types/CommentType";
 import { getComments } from "../../services/useComments";
 import { UserType } from "../../types/UserType";
 import { getUsers } from "../../services/useUsers";
-
-// import { useSelector, useDispatch } from "react-redux";
-// import { addComment, addPost, addUser } from "../../store/actions";
 import PostCard from "../../components/PostCard";
 import { Link } from "react-router-dom";
 import Loading from "../../components/Loading";
 
-// interface State {
-//     users: UserType[];
-//     posts: PostType[];
-//     comments: CommentType[];
-// }
+import { useSelector, useDispatch } from "react-redux";
+import { addComment, addPost, addUser } from "../../store/actions";
+
+interface State {
+    users: UserType[];
+    posts: PostType[];
+    comments: CommentType[];
+}
 
 const Posts = () => {
-    // const globalState = useSelector((state: State) => state);
-    // const dispatch = useDispatch();
-    // console.log(globalState);
+    const globalState = useSelector((state: State) => state);
+    const dispatch = useDispatch();
+    console.log(globalState);
 
     const [searchText, setSearchText] = useState<string>("");
     const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -30,13 +30,13 @@ const Posts = () => {
         setSearchText(event.target.value);
     };
 
-    const [data, setData] = useState<{
-        posts: PostType[];
-        comments: CommentType[];
-        users: UserType[];
-    }>({ posts: [], comments: [], users: [] });
+    // const [data, setData] = useState<{
+    //     posts: PostType[];
+    //     comments: CommentType[];
+    //     users: UserType[];
+    // }>({ posts: [], comments: [], users: [] });
 
-    const filteredPosts = data.posts.filter((post) =>
+    const filteredPosts = globalState.posts.filter((post) =>
         post.title.toLowerCase().includes(searchText.toLowerCase()),
     );
 
@@ -47,13 +47,11 @@ const Posts = () => {
             setLoading(true);
             Promise.all([getPosts(), getUsers(), getComments()])
                 .then(([posts, users, comments]) => {
-                    setData({ posts, users, comments });
+                    // setData({ posts, users, comments });
 
-                    // if (globalState.users.length === 0 && globalState.posts.length === 0) {
-                    //     dispatch(addPost(posts));
-                    //     dispatch(addUser(users));
-                    //     dispatch(addComment(comments));
-                    // }
+                    dispatch(addPost(posts));
+                    dispatch(addUser(users));
+                    dispatch(addComment(comments));
                 })
                 .catch((error) => {
                     console.log(error);
@@ -62,13 +60,7 @@ const Posts = () => {
                     setLoading(false);
                 });
         }
-    }, [
-        // dispatch,
-        // globalState.comments.length,
-        // globalState.posts.length,
-        // globalState.users.length,
-        isLoading,
-    ]);
+    }, [dispatch, isLoading]);
 
     useEffect(() => {
         if (textareaRef.current) {
@@ -134,7 +126,7 @@ const Posts = () => {
             ) : (
                 <div className="containerPosts">
                     {filteredPosts.map((post) => (
-                        <PostCard key={post.id} post={post} data={data} />
+                        <PostCard key={post.id} post={post} data={globalState} />
                     ))}
                 </div>
             )}

@@ -4,12 +4,22 @@ import { useEffect, useState } from "react";
 import { getUser } from "../../../services/useUsers";
 import Loading from "../../../components/Loading";
 import UserCard from "../../../components/UserCard";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+
+interface State {
+    users: UserType;
+}
 
 type MyParams = {
     id: "";
 };
 
 const User = () => {
+    const globalState = useSelector((state: State) => state);
+    const dispatch = useDispatch();
+    console.log(globalState);
+
     const { id } = useParams<MyParams>();
     const numberId = Number(id);
     const [user, setUser] = useState<UserType>({
@@ -43,6 +53,7 @@ const User = () => {
             setLoading(true);
             Promise.all([getUser(numberId)])
                 .then(([user]) => {
+                    console.log(user);
                     setUser(user);
                     // if (post.userId) {
                     //     return getUser(post.userId);
@@ -53,12 +64,24 @@ const User = () => {
                 // })
                 .catch((error) => {
                     console.log(error);
+                    const foundUser = globalState.users.find((user) => user.id === numberId);
+                    if (foundUser) {
+                        setUser(foundUser);
+                    }
                 })
                 .finally(() => {
                     setLoading(false);
                 });
         }
-    }, [numberId, isLoading]);
+    }, [numberId, isLoading, globalState.users]);
+
+    // const filteredUsers = globalState.users.filter((user: UserType) => {
+    //     if (user.id === numberId) {
+    //         console.log(user);
+
+    //         return user;
+    //     }
+    // });
 
     return (
         <>
@@ -67,27 +90,27 @@ const User = () => {
             ) : (
                 <div className="containerUser text-white">
                     <div className="flex flex-col gap-[10px]">
-                        <UserCard user={user} show={false}/>
-                        <div className="bg-slate-700 rounded-lg py-[10px] px-[20px] ring-slate-900/5 shadow-lg text-white ">
+                        <UserCard user={user} show={false} />
+                        {/* <div className="bg-slate-700 rounded-lg py-[10px] px-[20px] ring-slate-900/5 shadow-lg text-white ">
                             <label>
                                 <h3>Email:</h3>
-                                <p className="text-slate-400">{user.email}</p>
+                                <p className="text-slate-400">{filteredUsers.email}</p>
                             </label>
                             <label>
                                 <h3>Phone:</h3>
-                                <p className="text-slate-400">{user.phone}</p>
+                                <p className="text-slate-400">{filteredUsers.phone}</p>
                             </label>
                             <label>
                                 <h3>Address:</h3>
-                                <p className="text-slate-400">{`${user.address.street}, ${user.address.suite}, ${user.address.city}, ${user.address.zipcode}`}</p>
+                                <p className="text-slate-400">{`${filteredUsers.address.street}, ${filteredUsers.address.suite}, ${filteredUsers.address.city}, ${filteredUsers.address.zipcode}`}</p>
                             </label>
                         </div>
                         <div className="bg-slate-700 rounded-lg py-[10px] px-[20px] ring-slate-900/5 shadow-lg text-white">
                             <label>
                                 <h3>Website:</h3>
-                                <p className="text-slate-400">{user.website}</p>
+                                <p className="text-slate-400">{filteredUsers.website}</p>
                             </label>
-                        </div>
+                        </div> */}
                     </div>
                     <div>
                         <div className="w-full min-h-[50px] flex flex-row flex-wrap gap-1 mb-[10px]">
