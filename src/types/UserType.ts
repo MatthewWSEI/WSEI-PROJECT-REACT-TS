@@ -1,4 +1,6 @@
 export type UserType = {
+    find?: unknown;
+    filter?: unknown;
     id: number | null;
     name: string;
     username: string;

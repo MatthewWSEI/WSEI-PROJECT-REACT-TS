@@ -1,5 +1,5 @@
 export type AlbumType = {
-    userId: number;
-    id: number;
+    userId: number | null;
+    id: number | null;
     title: string;
 };
