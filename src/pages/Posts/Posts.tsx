@@ -21,7 +21,6 @@ interface State {
 const Posts = () => {
     const globalState = useSelector((state: State) => state);
     const dispatch = useDispatch();
-    console.log(globalState);
 
     const [searchText, setSearchText] = useState<string>("");
     const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -30,6 +29,13 @@ const Posts = () => {
         setSearchText(event.target.value);
     };
 
+    const deletePost = (id: number) => {
+        const newArrayWithoutRemovedItem = globalState.posts.filter(
+            (post: PostType) => post.id !== id,
+        );
+        dispatch(addPost(newArrayWithoutRemovedItem));
+        console.log(newArrayWithoutRemovedItem);
+    };
     // const [data, setData] = useState<{
     //     posts: PostType[];
     //     comments: CommentType[];
@@ -42,15 +48,52 @@ const Posts = () => {
 
     const [isLoading, setLoading] = useState<boolean>(true);
 
+    const initialUser: UserType = {
+        id: 13636,
+        name: "Mateusz Dynur",
+        username: "matthew",
+        email: "mateusz.dynur@microsoft.wsei.edu.pl",
+        address: {
+            street: "Unknow",
+            suite: "Unknow",
+            city: "Unknow",
+            zipcode: "00-000",
+            geo: {
+                lat: "Unknow",
+                lng: "Unknow",
+            },
+        },
+        phone: "+48 000 000 000",
+        website: "Unknow",
+        company: {
+            name: "Unknow",
+            catchPhrase: "Unknow",
+            bs: "Unknow",
+        },
+    };
+
     useEffect(() => {
-        if (isLoading) {
+        if (
+            isLoading &&
+            globalState.posts.length === 0 &&
+            globalState.users.length === 0 &&
+            globalState.comments.length === 0
+        ) {
             setLoading(true);
             Promise.all([getPosts(), getUsers(), getComments()])
                 .then(([posts, users, comments]) => {
                     // setData({ posts, users, comments });
 
+                    const userAlreadyExists = users.some(
+                        (user: UserType) => user.id === initialUser.id,
+                    );
+
+                    const newUserTab: UserType[] = userAlreadyExists
+                        ? users
+                        : [...users, initialUser];
+
                     dispatch(addPost(posts));
-                    dispatch(addUser(users));
+                    dispatch(addUser(newUserTab));
                     dispatch(addComment(comments));
                 })
                 .catch((error) => {
@@ -60,7 +103,17 @@ const Posts = () => {
                     setLoading(false);
                 });
         }
-    }, [dispatch, isLoading]);
+        // if (!isLoading) {
+        //     console.log(globalState);
+        // }
+        if (
+            globalState.posts.length !== 0 ||
+            globalState.users.length !== 0 ||
+            globalState.comments.length !== 0
+        ) {
+            setLoading(false);
+        }
+    }, [isLoading]);
 
     useEffect(() => {
         if (textareaRef.current) {
@@ -126,7 +179,12 @@ const Posts = () => {
             ) : (
                 <div className="containerPosts">
                     {filteredPosts.map((post) => (
-                        <PostCard key={post.id} post={post} data={globalState} />
+                        <PostCard
+                            key={post.id}
+                            post={post}
+                            data={globalState}
+                            deletePost={deletePost}
+                        />
                     ))}
                 </div>
             )}

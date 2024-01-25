@@ -1,15 +1,29 @@
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { PostType } from "../../../types/PostType";
 import { getPost } from "../../../services/usePosts";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { getUser } from "../../../services/useUsers";
 import { UserType } from "../../../types/UserType";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import Loading from "../../../components/Loading";
+import { addPost } from "../../../store/actions";
 
 type MyParams = {
     id: "";
 };
 
+interface State {
+    users: UserType[];
+    posts: PostType[];
+}
+
 const PostEdit = () => {
+    const globalState = useSelector((state: State) => state);
+    const dispatch = useDispatch();
+
+    const navigate = useNavigate();
+
     const { id } = useParams<MyParams>();
     const numberId = Number(id);
     const [formData, setFormData] = useState<PostType>({
@@ -44,15 +58,23 @@ const PostEdit = () => {
     });
 
     const [isLoading, setLoading] = useState<boolean>(true);
-
+    const getPostGlobal = (id: number) => globalState.posts.find((post) => post.id === id);
+    const getUserGlobal = (id: number) => globalState.users.find((user) => user.id === id);
     useEffect(() => {
         if (isLoading && numberId) {
             setLoading(true);
-            Promise.all([getPost(numberId)])
+            // Promise.all([getPost(numberId)])
+            //     .then(([post]) => {
+            //         setFormData(post);
+            //         if (post.userId) {
+            //             return getUser(post.userId);
+            //         }
+            //     })
+            Promise.all([getPostGlobal(numberId)])
                 .then(([post]) => {
                     setFormData(post);
                     if (post.userId) {
-                        return getUser(post.userId);
+                        return getUserGlobal(post.userId);
                     }
                 })
                 .then((user) => {
@@ -78,7 +100,6 @@ const PostEdit = () => {
     ) => {
         const { name, value } = event.target;
         const newCharacterCount = value.length;
-        console.log(newCharacterCount);
 
         if (name === "title") {
             setTitleCharsCount(newCharacterCount);
@@ -112,10 +133,31 @@ const PostEdit = () => {
             textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
         }
     }, [formData]);
-    return (
+
+    const deletePost = (id: number) => {
+        const newArrayWithoutRemovedItem = globalState.posts.filter(
+            (post: PostType) => post.id !== id,
+        );
+        dispatch(addPost(newArrayWithoutRemovedItem));
+        navigate("/");
+    };
+
+    const saveData = (id: number, updatedPost: PostType) => {
+
+        const newArrayWithUpdatedItem = globalState.posts.map((post: PostType) =>
+            post.id === id ? updatedPost : post,
+        );
+
+        dispatch(addPost(newArrayWithUpdatedItem));
+        navigate("/");
+    };
+
+    return isLoading ? (
+        <Loading />
+    ) : (
         <div className="w-full bg-slate-700 text-white flex flex-col rounded-lg py-[10px] px-[20px] ring-slate-900/5 shadow-lg gap-4">
             <div className="w-full">
-                <Link className="w-auto flex flex-row items-center gap-1" to={"/test"}>
+                <Link className="w-auto flex flex-row items-center gap-1" to={`/user/${user.id}`}>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
@@ -169,7 +211,10 @@ const PostEdit = () => {
                 </label>
             </form>
             <div className="w-full flex flex-row gap-1 justify-end">
-                <button className="transition duration-700 ease-in-out bg-lime-700 hover:bg-slate-500 rounded-lg px-2 py-1 text-white flex justify-center flex-row items-center gap-1">
+                <button
+                    className="transition duration-700 ease-in-out bg-lime-700 hover:bg-slate-500 rounded-lg px-2 py-1 text-white flex justify-center flex-row items-center gap-1"
+                    onClick={()=>saveData(formData.id, formData)}
+                >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
@@ -185,7 +230,10 @@ const PostEdit = () => {
 
                     <span>Save</span>
                 </button>
-                <button className="transition duration-700 ease-in-out bg-red-700 hover:bg-slate-500 rounded-lg px-2 py-1 text-white flex justify-center flex-row items-center gap-1">
+                <button
+                    className="transition duration-700 ease-in-out bg-red-700 hover:bg-slate-500 rounded-lg px-2 py-1 text-white flex justify-center flex-row items-center gap-1"
+                    onClick={() => deletePost(formData.id)}
+                >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"

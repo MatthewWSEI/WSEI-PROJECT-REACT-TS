@@ -14,12 +14,12 @@ export const CLEAR_USER = "CLEAR_USER";
 export const CLEAR_POST = "CLEAR_POST";
 export const CLEAR_COMMENT = "CLEAR_COMMENT";
 
-export const addUser = (user: UserType) => ({
+export const addUser = (user: UserType | UserType[]) => ({
     type: ADD_USER,
     payload: user,
 });
 
-export const addPost = (post: PostType) => ({
+export const addPost = (post: PostType | PostType) => ({
     type: ADD_POST,
     payload: post,
 });

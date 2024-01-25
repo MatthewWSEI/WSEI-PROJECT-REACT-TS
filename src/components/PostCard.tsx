@@ -11,9 +11,11 @@ type PostCardProps = {
         comments: CommentType[];
         users: UserType[] | UserType;
     };
+    deletePost: (postId: number) => void;
 };
 
-const PostCard: React.FC<PostCardProps> = ({ post, data }) => {
+
+const PostCard: React.FC<PostCardProps> = ({ post, data, deletePost }) => {
     const [open, setOpen] = useState<boolean>(false);
 
     return (
@@ -82,6 +84,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, data }) => {
                                 viewBox="0 0 24 24"
                                 fill="currentColor"
                                 className="w-4 h-4 cursor-pointer"
+                                onClick={() => deletePost(post.id)}
                             >
                                 <path
                                     fillRule="evenodd"

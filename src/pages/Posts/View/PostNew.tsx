@@ -3,8 +3,8 @@ import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { PostType } from "../../../types/PostType";
 import { useDispatch, useSelector } from "react-redux";
 import { addPost } from "../../../store/actions";
-// import { UserType } from "../../../types/UserType";
-// import { CommentType } from "../../../types/CommentType";
+import { UserType } from "../../../types/UserType";
+import { CommentType } from "../../../types/CommentType";
 import { useNavigate } from "react-router-dom";
 interface State {
     // users: UserType[];
@@ -15,7 +15,6 @@ interface State {
 const PostNew = () => {
     const globalState = useSelector((state: State) => state);
     const dispatch = useDispatch();
-    console.log(globalState);
 
     const navigate = useNavigate();
 
@@ -101,14 +100,16 @@ const PostNew = () => {
 
     const saveData = () => {
         const id = generateRandomInteger(999, 10000);
-        dispatch(
-            addPost({
-                id: id,
-                title: post.title,
-                body: post.body,
-                userId: 13636,
-            }),
-        );
+        const postsGet = globalState.posts;
+        const initialPost: PostType = {
+            id: id,
+            title: post.title,
+            body: post.body,
+            userId: 13636,
+        };
+
+        const newPosts: PostType[] | PostType = [...postsGet, initialPost];
+        dispatch(addPost(newPosts));
         navigate("/");
     };
 
