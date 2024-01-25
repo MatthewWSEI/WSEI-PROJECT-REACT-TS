@@ -1,20 +1,34 @@
 import { useState, useEffect, useRef, ChangeEvent } from "react";
 import { TodoType } from "../../types/TodoType";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { UserType } from "../../types/UserType";
 import { getUsers } from "../../services/useUsers";
 import { getTodos } from "../../services/useTodos";
 import Loading from "../../components/Loading";
 import TodoCard from "../../components/TodoCard";
+import { addTodo } from "../../store/actions";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
+interface State {
+    todos: TodoType[];
+    users: UserType[];
+}
 const TodoList = () => {
+    const globalState = useSelector((state: State) => state);
+    const dispatch = useDispatch();
     const [searchText, setSearchText] = useState<string>("");
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
     const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
         setSearchText(event.target.value);
     };
-
+    const [task, setTask] = useState<TodoType>({
+        id: null,
+        title: "",
+        completed: false,
+        userId: null,
+    });
     const [isLoading, setLoading] = useState<boolean>(true);
 
     const [data, setData] = useState<{
@@ -22,9 +36,14 @@ const TodoList = () => {
         users: UserType[];
     }>({ todos: [], users: [] });
 
-    const filteredTodos = data.todos.filter((todo) =>
+    const filteredTodos = globalState.todos.filter((todo) =>
         todo.title.toLowerCase().includes(searchText.toLowerCase()),
     );
+
+    const handleChangeTodo = (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+        const { name, value } = event.target;
+        setTask((prevState) => ({ ...prevState, [name]: value }));
+    };
 
     useEffect(() => {
         if (isLoading) {
@@ -32,6 +51,8 @@ const TodoList = () => {
             Promise.all([getTodos(), getUsers()])
                 .then(([todos, users]) => {
                     setData({ todos, users });
+                    dispatch(addTodo(todos));
+                    // dispatch(addTodo(users));
                 })
                 .catch((error) => {
                     console.log(error);
@@ -39,6 +60,12 @@ const TodoList = () => {
                 .finally(() => {
                     setLoading(false);
                 });
+        }
+        if (!isLoading) {
+            console.log(globalState);
+        }
+        if ( globalState.todos.length === 0) {
+            setLoading(false);
         }
     }, [isLoading]);
 
@@ -48,6 +75,23 @@ const TodoList = () => {
             textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
         }
     }, [searchText]);
+
+    const generateRandomInteger = (min: number, max: number): number => {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    };
+
+    const addNewTask = () => {
+        const id = generateRandomInteger(999, 10000);
+        const todosGet = globalState.todos;
+        const initialTask: TodoType = {
+            id: id,
+            title: task.title,
+            completed: false,
+            userId: 13636,
+        };
+        const newTodos: TodoType[] | TodoType = [...todosGet, initialTask];
+        dispatch(addTodo(newTodos));
+    };
 
     return (
         <div className="w-full flex flex-col items-center">
@@ -79,10 +123,22 @@ const TodoList = () => {
                     />
                 </div>
             </div>
-            <div className="w-full h-[50px] flex justify-start  mb-1">
-                <Link
-                    className="w-fit flex flex-row items-center justify-start gap-1 text-white font-bold transition duration-700 ease-in-out bg-slate-600 hover:bg-slate-500 rounded-lg px-2 py-1"
-                    to="/Todo/NewTodo"
+            <div className="w-full min-h-[50px] flex justify-start bg-slate-700 mb-1 py-[10px] px-[20px] gap-1 text-white rounded-lg">
+                <textarea
+                    className="w-full h-[1px] min-h-[50px] max-h-[300px] rounded-lg bg-slate-600 px-[20px] py-[10px]"
+                    ref={textareaRef}
+                    value={task.title}
+                    name="title"
+                    onChange={handleChangeTodo}
+                    placeholder="New task"
+                    style={{
+                        resize: "none",
+                    }}
+                />
+                <button
+                    className="w-fit h-[50px] flex flex-row items-center justify-start gap-1  font-bold transition duration-700 ease-in-out bg-slate-600 hover:bg-slate-500 rounded-lg px-2 py-1"
+                    onClick={addNewTask}
+                    // to="/Todo/NewTodo"
                 >
                     <div>
                         <svg
@@ -99,14 +155,14 @@ const TodoList = () => {
                         </svg>
                     </div>
                     <div>Add</div>
-                </Link>
+                </button>
             </div>
             <div className="containerPosts">
                 {isLoading ? (
                     <Loading />
                 ) : (
                     filteredTodos.map((todo) => (
-                        <TodoCard key={todo.id} todo={todo} data={data} />
+                        <TodoCard key={todo.id} todo={todo} data={globalState} />
                     ))
                 )}
             </div>

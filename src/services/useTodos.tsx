@@ -7,10 +7,11 @@ const getTodos = async (
 
     try {
         const responseData = await callApi(url, null, null, "GET");
-        console.log(responseData);
+        // console.log(responseData);
         return await responseData;
     } catch (error) {
-        console.error(error);
+        // console.error(error);
+        throw new Error("Todos NotFound");
     }
 };
 

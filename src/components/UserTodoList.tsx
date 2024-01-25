@@ -6,19 +6,28 @@ import { getTodos } from "../services/useTodos";
 import { getUsers } from "../services/useUsers";
 import Loading from "./Loading";
 import TodoCard from "./TodoCard";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 type MyParams = {
     id: "";
 };
 
+interface State {
+    todos: TodoType[];
+    users: UserType[];
+}
+
 const UserTodoList = () => {
+    const globalState = useSelector((state: State) => state);
+    const dispatch = useDispatch();
     const { id } = useParams<MyParams>();
     const numberId = Number(id);
     const [isLoading, setLoading] = useState<boolean>(true);
 
     const [data, setData] = useState<{
         todos: TodoType[];
-        users: UserType[];
+        users: UserType[] | UserType;
     }>({ todos: [], users: [] });
 
     useEffect(() => {
@@ -29,6 +38,15 @@ const UserTodoList = () => {
                     setData({ todos, users });
                 })
                 .catch((error) => {
+                    const foundTodo = globalState.todos.filter(
+                        (todo: TodoType) => todo.userId === numberId,
+                    );
+                    const foundUser = globalState.users.find(
+                        (user: UserType) => user.id === numberId,
+                    );
+                    if (foundTodo && foundUser) {
+                        setData({ todos: foundTodo, users: foundUser });
+                    }
                     console.log(error);
                 })
                 .finally(() => {
@@ -37,7 +55,7 @@ const UserTodoList = () => {
         }
     }, [isLoading]);
 
-    const filteredTodos = data.todos.filter((todo) => todo.userId === numberId);
+    const filteredTodos = globalState.todos.filter((todo) => todo.userId === numberId);
 
     return (
         <div>
@@ -46,7 +64,7 @@ const UserTodoList = () => {
             ) : (
                 <div className="containerPosts">
                     {filteredTodos.map((todo) => (
-                        <TodoCard key={todo.id} todo={todo} data={data} />
+                        <TodoCard key={todo.id} todo={todo} data={globalState} />
                     ))}
                 </div>
             )}

@@ -15,7 +15,6 @@ interface State {
 const Users = () => {
     const globalState = useSelector((state: State) => state);
     const dispatch = useDispatch();
-    console.log(globalState);
 
     const [searchText, setSearchText] = useState<string>("");
     const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -32,14 +31,46 @@ const Users = () => {
         user.name.toLowerCase().includes(searchText.toLowerCase()),
     );
 
+    const initialUser: UserType = {
+        id: 13636,
+        name: "Mateusz Dynur",
+        username: "matthew",
+        email: "mateusz.dynur@microsoft.wsei.edu.pl",
+        address: {
+            street: "Unknow",
+            suite: "Unknow",
+            city: "Unknow",
+            zipcode: "00-000",
+            geo: {
+                lat: "Unknow",
+                lng: "Unknow",
+            },
+        },
+        phone: "+48 000 000 000",
+        website: "Unknow",
+        company: {
+            name: "Unknow",
+            catchPhrase: "Unknow",
+            bs: "Unknow",
+        },
+    };
+
     useEffect(() => {
         const fetchData = async () => {
-            if (isLoading) {
+            if (isLoading && globalState.users.length === 0) {
                 setLoading(true);
                 try {
-                    const userData = await getUsers();
+                    const usersData = await getUsers();
+                    const userAlreadyExists = usersData.some(
+                        (user: UserType) => user.id === initialUser.id,
+                    );
+
+                    const newUserTab: UserType[] = userAlreadyExists
+                        ? usersData
+                        : [...usersData, initialUser];
+
                     // setUsers(userData);
-                    dispatch(addUser(userData));
+                    dispatch(addUser(newUserTab));
                 } catch (error) {
                     console.error(error);
                 } finally {
@@ -49,7 +80,13 @@ const Users = () => {
         };
 
         fetchData();
-    }, [dispatch, isLoading]);
+        // if (!isLoading) {
+        //     console.log(globalState);
+        // }
+        if (globalState.users.length !== 0) {
+            setLoading(false);
+        }
+    }, [isLoading]);
 
     return (
         <div className="w-full flex flex-col items-center">

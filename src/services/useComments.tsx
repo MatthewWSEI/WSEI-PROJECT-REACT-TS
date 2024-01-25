@@ -10,7 +10,8 @@ const getComments = async (
         // console.log(responseData);
         return await responseData;
     } catch (error) {
-        console.error(error);
+        // console.error(error);
+        throw new Error("Comments NotFound");
     }
 };
 

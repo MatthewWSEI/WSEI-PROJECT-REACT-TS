@@ -7,13 +7,25 @@ import { getUser } from "../services/useUsers";
 import { getComments } from "../services/useComments";
 import Loading from "./Loading";
 import PostCard from "./PostCard";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { addPost } from "../store/actions";
 
 type MyParams = {
     id: "";
 };
+interface State {
+    users: UserType[];
+    posts: PostType[];
+    comments: CommentType[];
+}
 
 const UserPostsList = () => {
+    const navigate = useNavigate();
+
+    const globalState = useSelector((state: State) => state);
+    const dispatch = useDispatch();
     const { id } = useParams<MyParams>();
     const numberId = Number(id);
 
@@ -57,14 +69,33 @@ const UserPostsList = () => {
                     setData({ posts, users, comments });
                 })
                 .catch((error) => {
+                    const foundPosts = globalState.posts.filter(
+                        (post: PostType) => post.userId === numberId,
+                    );
+                    const foundUser = globalState.users.find(
+                        (user: UserType) => user.id === numberId,
+                    );
+                    if (foundPosts && foundUser) {
+                        setData({ posts: foundPosts, users: foundUser, comments: [] });
+                    }
                     console.log(error);
                 })
                 .finally(() => {
                     setLoading(false);
                 });
         }
+        // if (!isLoading) {
+        //     console.log(globalState);
+        // }
     }, [isLoading, numberId]);
 
+    const deletePost = (id: number) => {
+        const newArrayWithoutRemovedItem = globalState.posts.filter(
+            (post: PostType) => post.id !== id,
+        );
+        dispatch(addPost(newArrayWithoutRemovedItem));
+        navigate("/");
+    };
     const filteredPosts = data.posts.filter((post) => post.userId === numberId);
     return (
         <div>
@@ -73,7 +104,12 @@ const UserPostsList = () => {
             ) : (
                 <div className="containerPosts">
                     {filteredPosts.map((post) => (
-                        <PostCard key={post.id} post={post} data={data} />
+                        <PostCard
+                            key={post.id}
+                            post={post}
+                            data={data}
+                            deletePost={deletePost}
+                        />
                     ))}
                 </div>
             )}

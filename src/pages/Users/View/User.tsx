@@ -53,7 +53,6 @@ const User = () => {
             setLoading(true);
             Promise.all([getUser(numberId)])
                 .then(([user]) => {
-                    console.log(user);
                     setUser(user);
                     // if (post.userId) {
                     //     return getUser(post.userId);
@@ -67,6 +66,31 @@ const User = () => {
                     const foundUser = globalState.users.find((user) => user.id === numberId);
                     if (foundUser) {
                         setUser(foundUser);
+                    } else {
+                        if (numberId === 13636)
+                            setUser({
+                                id: 13636,
+                                name: "Mateusz Dynur",
+                                username: "matthew",
+                                email: "mateusz.dynur@microsoft.wsei.edu.pl",
+                                address: {
+                                    street: "Unknow",
+                                    suite: "Unknow",
+                                    city: "Unknow",
+                                    zipcode: "00-000",
+                                    geo: {
+                                        lat: "Unknow",
+                                        lng: "Unknow",
+                                    },
+                                },
+                                phone: "+48 000 000 000",
+                                website: "Unknow",
+                                company: {
+                                    name: "Unknow",
+                                    catchPhrase: "Unknow",
+                                    bs: "Unknow",
+                                },
+                            });
                     }
                 })
                 .finally(() => {

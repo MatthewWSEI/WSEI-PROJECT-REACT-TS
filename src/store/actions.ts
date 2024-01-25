@@ -29,19 +29,19 @@ export const addComment = (comment: PostType) => ({
     payload: comment,
 });
 
-export const addTodo = (comment: TodoType) => ({
-    type: ADD_COMMENT,
-    payload: comment,
+export const addTodo = (todo: TodoType) => ({
+    type: ADD_TODO,
+    payload: todo,
 });
 
-export const addAlbum = (comment: AlbumType) => ({
+export const addAlbum = (album: AlbumType) => ({
     type: ADD_ALBUM,
-    payload: comment,
+    payload: album,
 });
 
-export const addPhoto = (comment: PhotoType) => ({
+export const addPhoto = (photo: PhotoType) => ({
     type: ADD_PHOTO,
-    payload: comment,
+    payload: photo,
 });
 
 export const clearUsers = () => ({

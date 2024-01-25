@@ -10,7 +10,8 @@ const getAlbums = async () => {
         // console.log(responseData);
         return await responseData;
     } catch (error) {
-        console.error(error);
+        // console.error(error);
+        throw new Error("Albums NotFound");
     }
 };
 
@@ -22,7 +23,8 @@ const getAlbum = async (id: unknown,) => {
         // console.log(responseData);
         return await responseData;
     } catch (error) {
-        console.error(error);
+        // console.error(error);
+        throw new Error("Album NotFound");
     }
 };
 
