@@ -116,7 +116,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, data, deletePost }) => {
                 </div>
             </div>
             <div className="buttonArea">
-                <div className="inline-flex gap-1">
+                <Link to={`/Post/${post.id}`} className="inline-flex gap-1">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
@@ -131,7 +131,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, data, deletePost }) => {
                     </svg>
 
                     {data.comments.filter((comment) => comment.postId === post.id).length || "0"}
-                </div>
+                </Link>
             </div>
         </div>
     );
