@@ -94,7 +94,6 @@ const UserPostsList = () => {
             (post: PostType) => post.id !== id,
         );
         dispatch(addPost(newArrayWithoutRemovedItem));
-        navigate("/");
     };
     const filteredPosts = data.posts.filter((post) => post.userId === numberId);
     return (

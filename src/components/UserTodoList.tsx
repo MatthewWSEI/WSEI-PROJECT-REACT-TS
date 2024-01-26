@@ -8,6 +8,7 @@ import Loading from "./Loading";
 import TodoCard from "./TodoCard";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
+import { addTodo } from "../store/actions";
 
 type MyParams = {
     id: "";
@@ -36,6 +37,8 @@ const UserTodoList = () => {
             Promise.all([getTodos(), getUsers()])
                 .then(([todos, users]) => {
                     setData({ todos, users });
+                    dispatch(addTodo(todos));
+
                 })
                 .catch((error) => {
                     const foundTodo = globalState.todos.filter(
@@ -57,6 +60,21 @@ const UserTodoList = () => {
 
     const filteredTodos = globalState.todos.filter((todo) => todo.userId === numberId);
 
+    const deleteTodo = (id: number) => {
+        const newArrayWithoutRemovedItem = globalState.todos.filter(
+            (task: TodoType) => task.id !== id,
+        );
+        dispatch(addTodo(newArrayWithoutRemovedItem));
+        console.log(newArrayWithoutRemovedItem);
+    };
+
+    const changeStatus = (id: number) => {
+        const updatedTodos = globalState.todos.map((task: TodoType) =>
+            task.id === id ? { ...task, completed: !task.completed } : task,
+        );
+        dispatch(addTodo(updatedTodos));
+    };
+
     return (
         <div>
             {isLoading ? (
@@ -64,7 +82,13 @@ const UserTodoList = () => {
             ) : (
                 <div className="containerPosts">
                     {filteredTodos.map((todo) => (
-                        <TodoCard key={todo.id} todo={todo} data={globalState} />
+                        <TodoCard
+                            key={todo.id}
+                            todo={todo}
+                            data={globalState}
+                            deleteTodo={deleteTodo}
+                            changeStatus={changeStatus}
+                        />
                     ))}
                 </div>
             )}

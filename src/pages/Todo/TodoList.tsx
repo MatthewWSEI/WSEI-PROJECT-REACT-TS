@@ -6,7 +6,7 @@ import { getUsers } from "../../services/useUsers";
 import { getTodos } from "../../services/useTodos";
 import Loading from "../../components/Loading";
 import TodoCard from "../../components/TodoCard";
-import { addTodo } from "../../store/actions";
+import { addTodo, addUser } from "../../store/actions";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 
@@ -45,13 +45,48 @@ const TodoList = () => {
         setTask((prevState) => ({ ...prevState, [name]: value }));
     };
 
+    const initialUser: UserType = {
+        id: 13636,
+        name: "Mateusz Dynur",
+        username: "matthew",
+        email: "mateusz.dynur@microsoft.wsei.edu.pl",
+        address: {
+            street: "Unknow",
+            suite: "Unknow",
+            city: "Unknow",
+            zipcode: "00-000",
+            geo: {
+                lat: "Unknow",
+                lng: "Unknow",
+            },
+        },
+        phone: "+48 000 000 000",
+        website: "Unknow",
+        company: {
+            name: "Unknow",
+            catchPhrase: "Unknow",
+            bs: "Unknow",
+        },
+    };
+
     useEffect(() => {
-        if (isLoading) {
+        if (isLoading && globalState.todos.length === 0 && globalState.users.length === 0) {
             setLoading(true);
             Promise.all([getTodos(), getUsers()])
                 .then(([todos, users]) => {
                     setData({ todos, users });
+
+                    const userAlreadyExists = users.some(
+                        (user: UserType) => user.id === initialUser.id,
+                    );
+
+                    const newUserTab: UserType[] = userAlreadyExists
+                        ? users
+                        : [...users, initialUser];
+
                     dispatch(addTodo(todos));
+                    dispatch(addUser(newUserTab));
+
                     // dispatch(addTodo(users));
                 })
                 .catch((error) => {
@@ -64,7 +99,7 @@ const TodoList = () => {
         if (!isLoading) {
             console.log(globalState);
         }
-        if ( globalState.todos.length === 0) {
+        if (globalState.users.length !== 0 || globalState.todos.length === 0) {
             setLoading(false);
         }
     }, [isLoading]);
@@ -91,6 +126,22 @@ const TodoList = () => {
         };
         const newTodos: TodoType[] | TodoType = [...todosGet, initialTask];
         dispatch(addTodo(newTodos));
+        setTask({ id: id, title: "", completed: false, userId: 13636 });
+    };
+
+    const deleteTodo = (id: number) => {
+        const newArrayWithoutRemovedItem = globalState.todos.filter(
+            (task: TodoType) => task.id !== id,
+        );
+        dispatch(addTodo(newArrayWithoutRemovedItem));
+        console.log(newArrayWithoutRemovedItem);
+    };
+
+    const changeStatus = (id: number) => {
+        const updatedTodos = globalState.todos.map((task: TodoType) =>
+            task.id === id ? { ...task, completed: !task.completed } : task,
+        );
+        dispatch(addTodo(updatedTodos));
     };
 
     return (
@@ -162,7 +213,13 @@ const TodoList = () => {
                     <Loading />
                 ) : (
                     filteredTodos.map((todo) => (
-                        <TodoCard key={todo.id} todo={todo} data={globalState} />
+                        <TodoCard
+                            key={todo.id}
+                            todo={todo}
+                            data={globalState}
+                            deleteTodo={deleteTodo}
+                            changeStatus={changeStatus}
+                        />
                     ))
                 )}
             </div>
